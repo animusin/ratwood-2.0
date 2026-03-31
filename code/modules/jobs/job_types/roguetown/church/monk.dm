@@ -1,10 +1,3 @@
-// MOB VARS stuff
-
-/mob/living/carbon/human
-	var/miracle_points = 0
-	var/church_favor = 0
-	var/personal_research_points = 0
-
 /datum/job/roguetown/monk
 	title = "Acolyte"
 	flag = MONK
