@@ -26,15 +26,37 @@
 		/datum/advclass/acolyte
 	)
 
+/datum/job/roguetown/monk/proc/_grant_all_patron_miracles_direct(mob/living/carbon/human/H)
+	if(!H || !H.mind || !H.patron)
+		return
+
+	if(length(H.patron.miracles))
+		for(var/spell_type in H.patron.miracles)
+			if(!ispath(spell_type, /obj/effect/proc_holder/spell))
+				continue
+			if(H.mind.has_spell(spell_type))
+				continue
+			var/obj/effect/proc_holder/spell/newspell = new spell_type
+			if(newspell)
+				H.mind.AddSpell(newspell, H)
+
+	if(length(H.patron.traits_tier))
+		for(var/trait in H.patron.traits_tier)
+			ADD_TRAIT(H, trait, TRAIT_MIRACLE)
+
 /datum/job/roguetown/monk/proc/grant_old_path(mob/living/carbon/human/H)
 	if(!H || !H.mind || !H.patron)
 		return
 
 	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/divineblast)
+		if(!H.mind.has_spell(/obj/effect/proc_holder/spell/invoked/projectile/divineblast))
+			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/divineblast, H)
 
-	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE) //Starts off maxed out.
+	if(!H.devotion)
+		var/datum/devotion/C = new /datum/devotion(H, H.patron)
+		C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE) //Starts off maxed out.
+
+	_grant_all_patron_miracles_direct(H)
 
 	to_chat(H, span_notice("I remain on the old path of devotion."))
 
@@ -42,10 +64,21 @@
 	if(!H || !H.mind)
 		return
 
+	if(HAS_TRAIT(H, TRAIT_CLERGYRADICAL))
+		return
+
 	ADD_TRAIT(H, TRAIT_CLERGYRADICAL, "job")
+
 	H.miracle_points += 7
 
-	var/miracle_menu_path = text2path("/obj/effect/proc_holder/spell/self/learnmiracle")
+	H.change_stat(STATKEY_STR, -2)
+	H.change_stat(STATKEY_CON, -2)
+	H.change_stat(STATKEY_WIL, -3)
+	H.change_stat(STATKEY_SPD, 1)
+	H.change_stat(STATKEY_PER, 2)
+	H.change_stat(STATKEY_LCK, 2)
+
+	var/miracle_menu_path = /obj/effect/proc_holder/spell/self/learnmiracle
 	if(miracle_menu_path)
 		if(!H.mind.has_spell(miracle_menu_path))
 			var/obj/effect/proc_holder/spell/S = new miracle_menu_path
@@ -53,6 +86,17 @@
 				H.mind.AddSpell(S, H)
 
 	to_chat(H, span_notice("I embrace the radical path. (+7 Miracle Points)"))
+
+/datum/job/roguetown/monk/proc/_delayed_path_choice(mob/living/carbon/human/H)
+	if(!H || !H.client || !H.mind)
+		return
+
+	var/choice = alert(H, "Choose your path.", "Acolyte Doctrine", "Old Path", "Radical")
+
+	if(choice == "Radical")
+		grant_radical_path(H)
+	else
+		grant_old_path(H)
 
 /datum/job/roguetown/monk/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
 	..()
@@ -80,14 +124,9 @@
 		H.real_name = "[title] [prev_real_name]"
 		H.name = "[title] [prev_name]"
 
-		var/choice = "Old Path"
-		if(H.client)
-			choice = alert(H, "Choose your path.", "Acolyte Doctrine", "Old Path", "Radical")
-
-		if(choice == "Radical")
-			grant_radical_path(H)
-		else
-			grant_old_path(H)
+		spawn(50)
+			if(H && H.client)
+				_delayed_path_choice(H)
 
 /datum/advclass/acolyte
 	name = "Acolyte"

@@ -1,7 +1,3 @@
-#ifndef TRAIT_CLERGYRADICAL
-#define TRAIT_CLERGYRADICAL "clergyradical"
-#endif
-
 /// DEFINITIONS ///
 #define CLERIC_ORI -1
 #define CLERIC_T0 0
@@ -134,16 +130,14 @@
 		if(("name" in J.vars) && istext(J.vars["name"]))
 			cands += lowertext("[J.vars["name"]]")
 	for(var/txt in cands)
-		if(findtext(txt, "druid") || findtext(txt, "acolyte") || findtext(txt, "churchling"))
+		if(findtext(txt, "acolyte"))
 			return TRUE
 	return FALSE
 
 /datum/devotion/proc/_is_learnmiracle_eligible(mob/living/carbon/human/H)
 	if(!H || !H.mind)
 		return FALSE
-	if(!HAS_TRAIT(H, TRAIT_CLERGYRADICAL))
-		return FALSE
-	return _is_clergy_radical(H)
+	return HAS_TRAIT(H, TRAIT_CLERGYRADICAL)
 
 /datum/devotion/proc/try_add_spells(silent = FALSE)
 	if(!holder?.mind || !patron)

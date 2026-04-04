@@ -84,7 +84,7 @@ var/global/list/PESTRA_ORGAN_KEYS = list(
 	"Heart" = "heart",
 	"Lungs" = "lungs",
 	"Liver" = "liver",
-	"Stomach" = "stomach",
+	"Stomach" = "stomach"
 )
 
 var/global/list/NOC_SECRET_MIRACLES = list(
@@ -123,6 +123,8 @@ var/global/list/NOC_SECRET_MIRACLES = list(
 		return PESTRA_ORGAN_T3_PRICE_FAVOR
 	return PESTRA_ORGAN_T1_PRICE_FAVOR
 
+/// bleh organ get
+
 /proc/_pestra_get_organ_type(label as text, tier_key as text)
 	if(!istext(label) || !istext(tier_key))
 		return null
@@ -134,7 +136,12 @@ var/global/list/NOC_SECRET_MIRACLES = list(
 		return null
 
 	var/path_txt = "/obj/item/organ/[base_key]/[tier_key]"
-	return text2path(path_txt)
+	var/typepath = text2path(path_txt)
+
+	if(ispath(typepath, /obj/item))
+		return typepath
+
+	return null
 
 /// INDEX STUFFFF
 
