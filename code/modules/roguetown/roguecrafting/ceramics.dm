@@ -55,7 +55,7 @@
 	name = "glass clay"
 	tools = list(/obj/item/reagent_containers/glass/mortar, /obj/item/pestle)
 	result = list(/obj/item/natural/clay/glassbatch)
-	reqs = list(/obj/item/natural/clay = 2, /obj/item/ash = 2, /obj/item/alch/stonedust = 1)
+	reqs = list(/obj/item/natural/clay = 2, /obj/item/ash = 1, /obj/item/natural/dirtclod/sand = 1, /obj/item/alch/stonedust = 1)
 	craftdiff = 0
 	hides_from_books = TRUE
 
@@ -86,7 +86,7 @@
 /datum/crafting_recipe/roguetown/ceramics/handbook_materials/glass_clay
 	name = "glass batch"
 	result = list(/obj/item/natural/clay/glassbatch)
-	reqs = list(/obj/item/natural/clay = 2, /obj/item/ash = 2, /obj/item/alch/stonedust = 1)
+	reqs = list(/obj/item/natural/clay = 2, /obj/item/ash = 1, /obj/item/natural/dirtclod/sand = 1, /obj/item/alch/stonedust = 1)
 	tools = list(/obj/item/reagent_containers/glass/mortar, /obj/item/pestle)
 	hides_from_books = FALSE
 

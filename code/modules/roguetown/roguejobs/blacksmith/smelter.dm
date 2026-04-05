@@ -375,52 +375,61 @@
 	base_state = "glasskiln"
 	anchored = TRUE
 	density = TRUE
-	max_contained_items = 2
+	max_contained_items = 6
 	smelting_ticks = 25
 
+/obj/machinery/light/rogue/smelter/glasskiln/proc/is_valid_kiln_item(obj/item/checking_item)
+	return istype(checking_item, /obj/item/natural/clay/glassbatch) || istype(checking_item, /obj/item/natural/dirtclod/sand)
+
 /obj/machinery/light/rogue/smelter/glasskiln/attackby(obj/item/attacking_item, mob/living/user, params)
-	// Reject ores, bars, and other smeltable items that are not glassbatch
-	if(attacking_item.smeltresult && !istype(attacking_item, /obj/item/natural/clay/glassbatch))
-		to_chat(user, span_warning("The glass kiln only accepts glass batch, not metal ores."))
-		return
-	// Accept glassbatch directly — bypass parent smelter which explicitly rejects it
-	if(istype(attacking_item, /obj/item/natural/clay/glassbatch))
+	if(istype(attacking_item, /obj/item/rogueweapon/tongs))
+		var/obj/item/rogueweapon/tongs/tongs = attacking_item
+		if(tongs.hingot && !is_valid_kiln_item(tongs.hingot))
+			to_chat(user, span_warning("The glass kiln only accepts glass batch and sand."))
+			return
+		return ..()
+	if(is_valid_kiln_item(attacking_item))
 		add_item(attacking_item, user)
 		return
-	// Tongs, fuel, and other items handled by parent
+	if(attacking_item.smeltresult)
+		to_chat(user, span_warning("The glass kiln only accepts glass batch, not metal ores."))
+		return
 	return ..()
 
 /obj/machinery/light/rogue/smelter/glasskiln/attack_right(mob/user)
 	var/obj/item/held_item = user.get_active_held_item()
 	if(!held_item)
 		return ..()
-	if(held_item.smeltresult && !istype(held_item, /obj/item/natural/clay/glassbatch))
-		to_chat(user, span_warning("The glass kiln only accepts glass batch, not metal ores."))
+	if(istype(held_item, /obj/item/rogueweapon/tongs))
+		attackby(held_item, user)
 		return
-	if(istype(held_item, /obj/item/natural/clay/glassbatch))
+	if(is_valid_kiln_item(held_item))
 		add_item(held_item, user)
+		return
+	if(held_item.smeltresult)
+		to_chat(user, span_warning("The glass kiln only accepts glass batch, not metal ores."))
 		return
 	return ..()
 
 /obj/machinery/light/rogue/smelter/glasskiln/add_item(obj/item/smelting_item, mob/user)
-	if(!istype(smelting_item, /obj/item/natural/clay/glassbatch))
-		to_chat(user, span_warning("The glass kiln only fires glass batch."))
+	if(!is_valid_kiln_item(smelting_item))
+		to_chat(user, span_warning("The glass kiln only accepts glass batch and sand."))
 		return
 	return ..()
 
 /obj/machinery/light/rogue/smelter/glasskiln/handle_smelting()
+	var/glassbatch_count = 0
+	var/sand_count = 0
 	for(var/obj/item/item as anything in contained_items)
-		if(!istype(item, /obj/item/natural/clay/glassbatch))
-			continue
-		// Primary glass output
-		var/obj/item/result = new item.smeltresult(src)
+		if(istype(item, /obj/item/natural/clay/glassbatch))
+			glassbatch_count++
+		else if(istype(item, /obj/item/natural/dirtclod/sand))
+			sand_count++
 		contained_items -= item
-		contained_items += result
-		// 50% chance of a bonus glass (average output: 1.5 per batch)
-		if(prob(50))
-			var/obj/item/bonus = new item.smeltresult(src)
-			contained_items += bonus
 		qdel(item)
+	var/bonus_outputs = min(glassbatch_count, sand_count)
+	for(var/i in 1 to (glassbatch_count + bonus_outputs))
+		contained_items += new /obj/item/natural/glass/heated(src)
 	playsound(src, 'sound/misc/smelter_fin.ogg', 100, FALSE)
 	visible_message(span_notice("\The [src] finished firing glass."))
 	smelting_progress = smelting_ticks + 1

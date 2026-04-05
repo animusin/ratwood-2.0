@@ -105,10 +105,10 @@
 			if(roll <= 65) return 1
 			return 0
 		if(SKILL_LEVEL_EXPERT)
-			if(roll <= 15) return 4
-			if(roll <= 50) return 3
-			if(roll <= 80) return 2
-			if(roll <= 95) return 1
+			if(roll <= 2) return 4
+			if(roll <= 30) return 3
+			if(roll <= 70) return 2
+			if(roll <= 90) return 1
 			return 0
 		if(SKILL_LEVEL_MASTER)
 			if(roll <= 20) return 5
@@ -148,7 +148,11 @@
 			var/atom/result_preview = initial(R.result_type)
 			var/preview_icon = R.recipe_icon || initial(result_preview.icon)
 			var/preview_icon_state = R.recipe_icon_state || initial(result_preview.icon_state)
-			radial_choices[choice_label] = image(icon = preview_icon, icon_state = preview_icon_state)
+			var/image/preview_image = image(icon = preview_icon, icon_state = preview_icon_state)
+			var/preview_color = R.recipe_icon_color || initial(result_preview.color)
+			if(preview_color)
+				preview_image.color = preview_color
+			radial_choices[choice_label] = preview_image
 
 		if(!recipe_map.len)
 			to_chat(user, span_warning("This clay cannot be shaped into anything useful."))
@@ -259,6 +263,7 @@
 	var/result_count = 1
 	var/recipe_icon = null
 	var/recipe_icon_state = null
+	var/recipe_icon_color = null
 	var/spins_required = 3  // Override for specific recipes if needed
 
 /datum/pottery_wheel_recipe/proc/valid_for_clay(obj/item/natural/clay/C)
@@ -326,6 +331,20 @@
 	result_type = /obj/item/natural/clay/rawteapot
 	required_clay_type = /obj/item/natural/clay/kneaded
 
+/datum/pottery_wheel_recipe/basic/kettle
+	name = "clay kettle"
+	craftdiff = 0
+	base_time = 45
+	result_type = /obj/item/natural/clay/rawclaykettle
+	required_clay_type = /obj/item/natural/clay/kneaded
+
+/datum/pottery_wheel_recipe/basic/pot
+	name = "clay pot"
+	craftdiff = 0
+	base_time = 50
+	result_type = /obj/item/natural/clay/rawclaypot
+	required_clay_type = /obj/item/natural/clay/kneaded
+
 /datum/pottery_wheel_recipe/basic/teacup
 	name = "teacup"
 	craftdiff = 0
@@ -359,6 +378,9 @@
 	craftdiff = 0
 	base_time = 35
 	result_type = /obj/item/natural/clay/rawdildo
+	recipe_icon = 'modular/icons/obj/lewd/dildo.dmi'
+	recipe_icon_state = "unfinished"
+	recipe_icon_color = "#A67C52"
 	required_clay_type = /obj/item/natural/clay/kneaded
 
 /datum/pottery_wheel_recipe/basic/statue_1
@@ -415,22 +437,32 @@
 /datum/pottery_wheel_recipe/porcelain/cameo
 	name = "porcelain cameo"
 	result_type = /obj/item/natural/clay/porcelain/cameo
+	recipe_icon = 'icons/roguetown/items/cooking.dmi'
+	recipe_icon_state = "clayporcelaincameoraw"
 
 /datum/pottery_wheel_recipe/porcelain/figurine
 	name = "porcelain figurine"
 	result_type = /obj/item/natural/clay/porcelain/figurine
+	recipe_icon = 'icons/roguetown/items/cooking.dmi'
+	recipe_icon_state = "clayporcelainfigurineraw"
 
 /datum/pottery_wheel_recipe/porcelain/fish
 	name = "porcelain fish figurine"
 	result_type = /obj/item/natural/clay/porcelain/fish
+	recipe_icon = 'icons/roguetown/items/cooking.dmi'
+	recipe_icon_state = "clayporcelainfishraw"
 
 /datum/pottery_wheel_recipe/porcelain/tablet
 	name = "porcelain tablet"
 	result_type = /obj/item/natural/clay/porcelain/tablet
+	recipe_icon = 'icons/roguetown/items/cooking.dmi'
+	recipe_icon_state = "clayporcelaintabletraw"
 
 /datum/pottery_wheel_recipe/porcelain/vase
 	name = "porcelain vase"
 	result_type = /obj/item/natural/clay/porcelain/vase
+	recipe_icon = 'icons/roguetown/items/cooking.dmi'
+	recipe_icon_state = "clayporcelainvaseraw"
 
 /datum/pottery_wheel_recipe/porcelain/fork
 	name = "porcelain fork"
@@ -439,6 +471,8 @@
 /datum/pottery_wheel_recipe/porcelain/spoon
 	name = "porcelain spoon"
 	result_type = /obj/item/natural/clay/porcelain/spoon
+	recipe_icon = 'icons/roguetown/items/cooking.dmi'
+	recipe_icon_state = "clayporcelainspoonraw"
 
 /datum/pottery_wheel_recipe/porcelain/bowl
 	name = "porcelain bowl"
@@ -463,6 +497,16 @@
 /datum/pottery_wheel_recipe/porcelain/teapot
 	name = "porcelain teapot"
 	result_type = /obj/item/natural/clay/porcelain/teapot
+	recipe_icon = 'modular/Neu_Food/icons/cookware/pot.dmi'
+	recipe_icon_state = "teapot_clay_raw"
+
+/datum/pottery_wheel_recipe/porcelain/kettle
+	name = "porcelain kettle"
+	result_type = /obj/item/natural/clay/porcelain/kettle
+
+/datum/pottery_wheel_recipe/porcelain/pot
+	name = "porcelain pot"
+	result_type = /obj/item/natural/clay/porcelain/pot
 
 /datum/pottery_wheel_recipe/porcelain/bottle
 	name = "porcelain bottle"
@@ -482,10 +526,15 @@
 /datum/pottery_wheel_recipe/porcelain/fancy_teapot
 	name = "fancy porcelain teapot"
 	result_type = /obj/item/natural/clay/porcelain/fancyteapot
+	recipe_icon = 'modular/Neu_Food/icons/cookware/pot.dmi'
+	recipe_icon_state = "clayporcelainfancyteapot2"
 
 /datum/pottery_wheel_recipe/porcelain/dildo
 	name = "porcelain dildo"
 	result_type = /obj/item/natural/clay/porcelain/dildo
+	recipe_icon = 'modular/icons/obj/lewd/dildo.dmi'
+	recipe_icon_state = "unfinished"
+	recipe_icon_color = "#D9CBB2"
 
 /datum/pottery_wheel_recipe/porcelain/advanced
 	abstract_type = /datum/pottery_wheel_recipe/porcelain/advanced
@@ -495,18 +544,26 @@
 /datum/pottery_wheel_recipe/porcelain/advanced/bust
 	name = "porcelain bust"
 	result_type = /obj/item/natural/clay/porcelain/bust
+	recipe_icon = 'icons/roguetown/items/cooking.dmi'
+	recipe_icon_state = "clayporcelainbustraw"
 
 /datum/pottery_wheel_recipe/porcelain/advanced/fancy_vase
 	name = "fancy porcelain vase"
 	result_type = /obj/item/natural/clay/porcelain/fancyvase
+	recipe_icon = 'icons/roguetown/items/cooking.dmi'
+	recipe_icon_state = "clayporcelainfancyvaseraw"
 
 /datum/pottery_wheel_recipe/porcelain/advanced/comb
 	name = "porcelain comb"
 	result_type = /obj/item/natural/clay/porcelain/comb
+	recipe_icon = 'icons/roguetown/items/cooking.dmi'
+	recipe_icon_state = "clayporcelaincombraw"
 
 /datum/pottery_wheel_recipe/porcelain/advanced/duck
 	name = "porcelain duck"
 	result_type = /obj/item/natural/clay/porcelain/duck
+	recipe_icon = 'icons/roguetown/items/cooking.dmi'
+	recipe_icon_state = "clayporcelainduckraw"
 
 /datum/pottery_wheel_recipe/porcelain/advanced/fancy_cup
 	name = "fancy porcelain cup"
@@ -515,31 +572,47 @@
 /datum/pottery_wheel_recipe/porcelain/advanced/fancy_teacup
 	name = "fancy porcelain teacup"
 	result_type = /obj/item/natural/clay/porcelain/fancyteacup
+	recipe_icon = 'icons/roguetown/items/cooking.dmi'
+	recipe_icon_state = "clayporcelaincupraw"
 
 /datum/pottery_wheel_recipe/porcelain/advanced/mask
 	name = "porcelain mask"
 	result_type = /obj/item/natural/clay/porcelain/mask
+	recipe_icon = 'icons/roguetown/items/cooking.dmi'
+	recipe_icon_state = "clayporcelainmaskraw"
 
 /datum/pottery_wheel_recipe/porcelain/advanced/urn
 	name = "porcelain urn"
 	result_type = /obj/item/natural/clay/porcelain/urn
+	recipe_icon = 'icons/roguetown/items/cooking.dmi'
+	recipe_icon_state = "clayporcelainurnraw"
 
 /datum/pottery_wheel_recipe/porcelain/advanced/statue
 	name = "porcelain statue"
 	result_type = /obj/item/natural/clay/porcelain/statue
+	recipe_icon = 'icons/roguetown/items/cooking.dmi'
+	recipe_icon_state = "clayporcelainstatueraw"
 
 /datum/pottery_wheel_recipe/porcelain/advanced/obelisk
 	name = "porcelain obelisk"
 	result_type = /obj/item/natural/clay/porcelain/obelisk
+	recipe_icon = 'icons/roguetown/items/cooking.dmi'
+	recipe_icon_state = "clayporcelainobeliskraw"
 
 /datum/pottery_wheel_recipe/porcelain/advanced/turtle
 	name = "porcelain turtle carving"
 	result_type = /obj/item/natural/clay/porcelain/turtle
+	recipe_icon = 'icons/roguetown/items/cooking.dmi'
+	recipe_icon_state = "clayporcelainturtleraw"
 
 /datum/pottery_wheel_recipe/porcelain/advanced/bauble
 	name = "porcelain bauble"
 	result_type = /obj/item/natural/clay/porcelain/bauble
+	recipe_icon = 'icons/roguetown/items/cooking.dmi'
+	recipe_icon_state = "clayporcelainbaubleraw"
 
 /datum/pottery_wheel_recipe/porcelain/advanced/rungu
 	name = "porcelain rungu"
 	result_type = /obj/item/natural/clay/porcelain/rungu
+	recipe_icon = 'icons/roguetown/items/cooking.dmi'
+	recipe_icon_state = "clayporcelainrunguraw"

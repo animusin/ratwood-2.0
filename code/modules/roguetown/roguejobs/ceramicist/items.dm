@@ -247,6 +247,7 @@
 		return
 
 	var/final_recipe_name = G.selected_recipe.name
+	var/is_statue_recipe = ispath(G.selected_recipe.result_type, /obj/item/roguestatue)
 	var/turf/drop_turf = get_turf(user)
 	var/glass_quality_tier = calculate_glass_quality(skill_level)
 	for(var/i in 1 to G.selected_recipe.result_count)
@@ -260,7 +261,7 @@
 	qdel(G)
 
 	if(user.mind)
-		var/exp_gain = ispath(G.selected_recipe.result_type, /obj/item/roguestatue) ? 15 : 5
+		var/exp_gain = is_statue_recipe ? 15 : 5
 		user.mind.add_sleep_experience(/datum/skill/craft/ceramics, exp_gain, FALSE)
 
 

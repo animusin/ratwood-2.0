@@ -529,7 +529,7 @@
 	var/cooktime_divisor = get_cooktime_divisor(cs)
 	if(do_after(user, 2 SECONDS / cooktime_divisor, target = src))
 		to_chat(user, span_info("I fan the flame on [src].")) // Until line combine is on by default gotta do this to avoid spam
-		try_cook(cooktime_divisor)
+		try_cook(cooktime_divisor, TRUE)
 		attack_right(user)
 
 /obj/machinery/light/rogue/hearth/attackby(obj/item/W, mob/living/user, params)
@@ -674,6 +674,7 @@
 				attachment = null
 				update_icon()
 		if(istype(attachment, /obj/item/reagent_containers/glass/bucket/pot) || istype(attachment, /obj/item/reagent_containers/glass/crucible))
+			attachment.update_icon()
 			if(!user.put_in_active_hand(attachment))
 				attachment.forceMove(user.loc)
 			attachment = null
@@ -700,9 +701,18 @@
 		if(IS_WET_OPEN_TURF(O))
 			extinguish()
 	if(on)
-		try_cook(cooktime_divisor)
+		try_cook(cooktime_divisor, FALSE)
 
-/obj/machinery/light/rogue/hearth/proc/try_cook(cooktime_divisor)
+/obj/machinery/light/rogue/hearth/MiddleClick(mob/user, params)
+	if(!Adjacent(user))
+		return
+	if(istype(attachment, /obj/item/reagent_containers/glass/bucket/pot))
+		var/obj/item/reagent_containers/glass/bucket/pot/attached_pot = attachment
+		if(attached_pot.toggle_lid(user))
+			update_icon()
+			return TRUE
+
+/obj/machinery/light/rogue/hearth/proc/try_cook(cooktime_divisor, is_fanning = FALSE)
 	if(initial(fueluse) > 0)
 		if(fueluse > 0)
 			fueluse = max(fueluse - 10, 0)
@@ -725,9 +735,14 @@
 			if(attachment.reagents)
 				var/heat_rate = 0.033
 				var/obj/item/reagent_containers/glass/bucket/pot/attached_pot = attachment
+				if(istype(attached_pot, /obj/item/reagent_containers/glass/bucket/pot/teapot))
+					heat_rate *= 1.25
+				if(is_fanning)
+					heat_rate *= 1.5
 				if(attached_pot.has_lid)
-					heat_rate = 0.05 // ~50% faster heating with lid on
+					heat_rate *= 1.5
 				attachment.reagents.expose_temperature(400, heat_rate)
+				attached_pot.update_icon()
 				if(attachment.reagents.chem_temp > MIN_STEW_TEMPERATURE)
 					boilloop.start()
 				else

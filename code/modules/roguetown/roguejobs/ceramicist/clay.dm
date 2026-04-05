@@ -23,6 +23,8 @@
 	var/shatter_chance = 20
 	var/ash_kneads = 0
 	var/sand_added = FALSE
+	var/stonedust_added = FALSE
+	var/final_temper_is_glass = FALSE
 	var/is_wet = FALSE
 	var/needs_knead_after_wet = FALSE
 	var/list/special_glaze_result_types = null
@@ -75,6 +77,11 @@
 	// Journeyman is baseline; lower skills take longer, higher skills speed up kneading
 	return max(6, round(base_time) + (SKILL_LEVEL_JOURNEYMAN - skill_level) * 4)
 
+/obj/item/natural/clay/proc/is_refinement_ready()
+	if(final_temper_is_glass)
+		return ash_kneads >= 1 && sand_added && stonedust_added
+	return ash_kneads >= 2 && sand_added
+
 /obj/item/natural/clay/proc/knead_wetted_clay(mob/living/user)
 	if(!user)
 		return FALSE
@@ -85,9 +92,29 @@
 	if(!do_after(user, get_knead_time(user, 1.5 SECONDS), target = src))
 		return FALSE
 	needs_knead_after_wet = FALSE
+	if(is_refinement_ready())
+		var/turf/drop_turf = get_turf(src)
+		if(final_temper_is_glass)
+			new /obj/item/natural/clay/glassbatch(drop_turf)
+			to_chat(user, span_notice("The mixture is now ready to be fired into glass."))
+		else
+			var/obj/item/natural/clay/refined/refined_clay = new(drop_turf)
+			refined_clay.is_wet = FALSE
+			to_chat(user, span_notice("The clay is now fully refined and ready for porcelain work."))
+		if(user.mind)
+			user.mind.add_sleep_experience(/datum/skill/craft/ceramics, 4, FALSE)
+		qdel(src)
+		return TRUE
 	if(user.mind)
 		user.mind.add_sleep_experience(/datum/skill/craft/ceramics, 4, FALSE)
 	return TRUE
+
+/obj/item/natural/clay/attack_right(mob/user)
+	var/obj/item/dye_brush/brush = user?.get_active_held_item()
+	if(istype(brush))
+		if(select_special_glaze(brush, user))
+			return TRUE
+	return ..()
 
 /obj/item/natural/clay/kneaded
 	name = "kneaded clay"
@@ -103,7 +130,7 @@
 /obj/item/natural/clay/glassbatch
 	name = "glass batch"
 	icon_state = "glassBatch"
-	desc = "A precisely weighed mixture of ground silica (clay), flux (ash), and stabilizer (stone powder), prepared by grinding all components together with a mortar and pestle. Requires: 2x clay, 2x ash, 1x stone powder. Heat in a smelter to yield heated glass, then shape with a blowing rod."
+	desc = "A precisely weighed mixture of ground silica (clay), flux (ash), sand, and stabilizer (stone powder). Requires: 2x clay, 1x ash, 1x sand, 1x stone powder. Heat in a smelter to yield heated glass, then shape with a blowing rod."
 	smeltresult = /obj/item/natural/glass/heated 	// Pulled from the furnace with tongs for blowing.
 	grind_results = list(/datum/reagent/iron = 15)
 	sellprice = 5
@@ -117,7 +144,7 @@
 
 /obj/item/natural/clay/refined
 	name = "refined clay"
-	desc = "Fine clay tempered through repeated cycles of wetting, kneading and resting with ash and sand to produce a smooth, dense body fit for porcelain. Requires: 1x kneaded clay, 2x ash, 1x sand. Wet before each addition and knead thoroughly after. Worked at a potter's wheel into fine porcelain."
+	desc = "Fine clay tempered with ash and sand to produce a smooth, dense body fit for porcelain. Requires: 1x kneaded clay, 2x ash, 1x sand. Add the ingredients, then wet and knead once to finish it. Worked at a potter's wheel into fine porcelain."
 	icon_state = "refined_clay"
 
 /obj/item/natural/clay/refined/Initialize(mapload)
@@ -160,6 +187,9 @@
 	var/found_table = locate(/obj/structure/table) in (loc)
 	var/obj/item/reagent_containers/water_container = W
 	if(istype(water_container) && !is_wet)
+		if((istype(src, /obj/item/natural/clay/kneaded) || istype(src, /obj/item/natural/clay/refined_partial)) && !is_refinement_ready())
+			to_chat(user, span_notice("I don't need to wet this again until all the tempering ingredients are added."))
+			return TRUE
 		if(isturf(loc) && !found_table)
 			to_chat(user, span_notice("I need a table to work this clay."))
 			return TRUE
@@ -201,14 +231,6 @@
 	if(!(istype(src, /obj/item/natural/clay/kneaded) || istype(src, /obj/item/natural/clay/refined_partial)))
 		return ..()
 
-	if(!is_wet)
-		to_chat(user, span_warning("The clay has dried out. I need to wet it again first."))
-		return
-
-	if(needs_knead_after_wet)
-		to_chat(user, span_warning("I should knead the wetted clay first before mixing more ingredients."))
-		return
-
 	if(isturf(loc) && !found_table)
 		to_chat(user, span_notice("I need a table to keep kneading this."))
 		return
@@ -217,71 +239,111 @@
 		if(ash_kneads >= 2)
 			to_chat(user, span_warning("This clay already has enough ash mixed in."))
 			return
-		to_chat(user, span_notice("I knead ash into the clay..."))
+		to_chat(user, span_notice("I add ash to the clay mixture."))
 		playsound(get_turf(user), 'modular/Neu_Food/sound/kneading.ogg', 100, TRUE, -1)
-		if(!do_after(user, get_knead_time(user, 1.5 SECONDS), target = src))
+		if(!do_after(user, 1 SECONDS, target = src))
+			return
+		if(istype(src, /obj/item/natural/clay/kneaded))
+			var/obj/item/natural/clay/refined_partial/partial = new(loc)
+			partial.ash_kneads = ash_kneads + 1
+			partial.sand_added = sand_added
+			partial.stonedust_added = stonedust_added
+			partial.final_temper_is_glass = final_temper_is_glass
+			partial.is_wet = FALSE
+			partial.needs_knead_after_wet = FALSE
+			qdel(W)
+			if(user.mind)
+				user.mind.add_sleep_experience(/datum/skill/craft/ceramics, 2, FALSE)
+			to_chat(user, span_notice("The clay now has [partial.ash_kneads]/2 ash added."))
+			if(partial.is_refinement_ready())
+				to_chat(user, span_notice("The clay mix is ready. I need to wet it and knead it once more to finish it."))
+			qdel(src)
 			return
 		ash_kneads++
-		set_wet_state(FALSE)
-		needs_knead_after_wet = FALSE
 		qdel(W)
 		if(user.mind)
-			user.mind.add_sleep_experience(/datum/skill/craft/ceramics, 6, FALSE)
-		to_chat(user, span_notice("The clay now has [ash_kneads]/2 ash mixed in."))
-		if(ash_kneads >= 2 && sand_added)
-			var/obj/item/natural/clay/refined/refined_clay = new(loc)
-			refined_clay.is_wet = FALSE
-			to_chat(user, span_notice("The clay is now fully refined and ready for porcelain work."))
-			qdel(src)
+			user.mind.add_sleep_experience(/datum/skill/craft/ceramics, 2, FALSE)
+		to_chat(user, span_notice("The clay now has [ash_kneads]/2 ash added."))
+		if(is_refinement_ready())
+			to_chat(user, span_notice("The clay mix is ready. I need to wet it and knead it once more to finish it."))
+		return
+
+	if(istype(W, /obj/item/alch/stonedust))
+		if(user.get_skill_level(/datum/skill/craft/ceramics) < SKILL_LEVEL_JOURNEYMAN)
+			to_chat(user, span_warning("I need journeyman pottery knowledge to prepare glass batches."))
+			return ..()
+		if(stonedust_added)
+			to_chat(user, span_warning("This clay already has enough stone dust mixed in."))
+			return
+		to_chat(user, span_notice("I add stone dust to the clay mixture."))
+		playsound(get_turf(user), 'modular/Neu_Food/sound/kneading.ogg', 100, TRUE, -1)
+		if(!do_after(user, 1 SECONDS, target = src))
 			return
 		if(istype(src, /obj/item/natural/clay/kneaded))
 			var/obj/item/natural/clay/refined_partial/partial = new(loc)
 			partial.ash_kneads = ash_kneads
 			partial.sand_added = sand_added
+			partial.stonedust_added = TRUE
+			partial.final_temper_is_glass = TRUE
 			partial.is_wet = FALSE
+			partial.needs_knead_after_wet = FALSE
+			qdel(W)
+			if(user.mind)
+				user.mind.add_sleep_experience(/datum/skill/craft/ceramics, 2, FALSE)
+			if(partial.is_refinement_ready())
+				to_chat(user, span_notice("The clay mix is ready. I need to wet it and knead it once more to finish it."))
+			else
+				to_chat(user, span_notice("This clay is partially refined. I still need ash and sand before it can be finished."))
 			qdel(src)
+			return
+		stonedust_added = TRUE
+		final_temper_is_glass = TRUE
+		qdel(W)
+		if(user.mind)
+			user.mind.add_sleep_experience(/datum/skill/craft/ceramics, 2, FALSE)
+		if(is_refinement_ready())
+			to_chat(user, span_notice("The clay mix is ready. I need to wet it and knead it once more to finish it."))
+		else
+			to_chat(user, span_notice("This clay is partially refined. I still need ash and sand before it can be finished."))
 		return
 
-	if(istype(W, /obj/item/natural/stone) || istype(W, /obj/item/natural/dirtclod/sand) || istype(W, /obj/item/alch/stonedust))
-		var/is_stonedust = istype(W, /obj/item/alch/stonedust)
-		if(is_stonedust && user.get_skill_level(/datum/skill/craft/ceramics) < SKILL_LEVEL_JOURNEYMAN)
-			to_chat(user, span_warning("I need journeyman pottery knowledge to prepare glass batches."))
-			return ..()
-		if(ash_kneads < 2)
-			to_chat(user, span_warning("I need to knead in 2 ash before adding sand."))
-			return
+	if(istype(W, /obj/item/natural/stone) || istype(W, /obj/item/natural/dirtclod/sand))
 		if(sand_added)
 			to_chat(user, span_warning("This clay already has enough sand mixed in."))
 			return
-		to_chat(user, span_notice("I knead the final mineral temper into the clay to refine it."))
+		to_chat(user, span_notice("I add sand to the clay mixture."))
 		playsound(get_turf(user), 'modular/Neu_Food/sound/kneading.ogg', 100, TRUE, -1)
-		if(!do_after(user, get_knead_time(user, 2 SECONDS), target = src))
-			return
-		sand_added = TRUE
-		set_wet_state(FALSE)
-		needs_knead_after_wet = FALSE
-		qdel(W)
-		if(user.mind)
-			user.mind.add_sleep_experience(/datum/skill/craft/ceramics, 6, FALSE)
-		if(ash_kneads >= 2)
-			if(is_stonedust)
-				var/obj/item/natural/clay/glassbatch/glass_batch = new(loc)
-				glass_batch.is_wet = FALSE
-				to_chat(user, span_notice("The clay mixture is now ready to be smelted into glass."))
-			else
-				var/obj/item/natural/clay/refined/refined_clay = new(loc)
-				refined_clay.is_wet = FALSE
-				to_chat(user, span_notice("The clay is now fully refined and ready for porcelain work."))
-			qdel(src)
+		if(!do_after(user, 1 SECONDS, target = src))
 			return
 		if(istype(src, /obj/item/natural/clay/kneaded))
 			var/obj/item/natural/clay/refined_partial/partial = new(loc)
 			partial.ash_kneads = ash_kneads
-			partial.sand_added = sand_added
+			partial.sand_added = TRUE
+			partial.stonedust_added = stonedust_added
+			partial.final_temper_is_glass = final_temper_is_glass
 			partial.is_wet = FALSE
+			partial.needs_knead_after_wet = FALSE
+			qdel(W)
+			if(user.mind)
+				user.mind.add_sleep_experience(/datum/skill/craft/ceramics, 2, FALSE)
+			if(partial.is_refinement_ready())
+				to_chat(user, span_notice("The clay mix is ready. I need to wet it and knead it once more to finish it."))
+			else if(partial.final_temper_is_glass)
+				to_chat(user, span_notice("This clay is partially refined. I still need ash and stone dust before it can become glass batch."))
+			else
+				to_chat(user, span_notice("This clay is partially refined. I need more ash to finish it."))
 			qdel(src)
 			return
-		to_chat(user, span_notice("This clay is partially refined. I need more ash to finish it."))
+		sand_added = TRUE
+		qdel(W)
+		if(user.mind)
+			user.mind.add_sleep_experience(/datum/skill/craft/ceramics, 2, FALSE)
+		if(is_refinement_ready())
+			to_chat(user, span_notice("The clay mix is ready. I need to wet it and knead it once more to finish it."))
+		else if(final_temper_is_glass)
+			to_chat(user, span_notice("This clay is partially refined. I still need ash and stone dust before it can become glass batch."))
+		else
+			to_chat(user, span_notice("This clay is partially refined. I need more ash to finish it."))
 		return
 
 	return ..()

@@ -19,6 +19,8 @@
 	var/has_lid = FALSE
 	var/lid_icon_state = "potelid"
 	var/boiling_temperature_threshold = 374
+	var/lid_on_sound = 'sound/combat/hits/onmetal/sheet (2).ogg'
+	var/lid_off_sound = 'sound/combat/hits/onmetal/sheet (1).ogg'
 
 /obj/item/reagent_containers/glass/bucket/pot/update_icon()
 	cut_overlays()
@@ -39,22 +41,51 @@
 	if(has_lid && lid_icon_state)
 		add_overlay(mutable_appearance(icon, lid_icon_state))
 
-/obj/item/reagent_containers/glass/bucket/pot/attack_right(mob/user)
+/obj/item/reagent_containers/glass/bucket/pot/proc/toggle_lid(mob/user)
 	if(user.get_active_held_item())
 		to_chat(user, span_info("I need an empty hand to handle the lid."))
-		return
+		return FALSE
 	has_lid = !has_lid
+	if(has_lid)
+		reagent_flags &= ~OPENCONTAINER
+		playsound(get_turf(src), lid_on_sound, 60, TRUE)
+	else
+		reagent_flags |= OPENCONTAINER
+		playsound(get_turf(src), lid_off_sound, 60, TRUE)
 	to_chat(user, has_lid ? span_notice("I cover [src] with its lid.") : span_notice("I remove the lid from [src]."))
 	update_icon()
+	return TRUE
+
+/obj/item/reagent_containers/glass/bucket/pot/is_refillable()
+	if(has_lid)
+		return FALSE
+	return ..()
+
+/obj/item/reagent_containers/glass/bucket/pot/attack_right(mob/user)
+	return ..()
+
+/obj/item/reagent_containers/glass/bucket/pot/MiddleClick(mob/user, params)
+	if(!Adjacent(user))
+		return
+	toggle_lid(user)
 
 
 /obj/item/reagent_containers/glass/bucket/pot/attackby(obj/item/I, mob/user, params)
+	if(has_lid && (I.reagents || istype(I, /obj/item/reagent_containers/glass/bowl)))
+		to_chat(user, span_warning("I need to remove the lid from [src] before filling it."))
+		return TRUE
 	if(istype(I, /obj/item/reagent_containers/glass/bowl))
 		to_chat(user, "<span class='notice'>Filling the bowl...</span>")
 		playsound(user, pick('sound/foley/waterwash (1).ogg','sound/foley/waterwash (2).ogg'), 70, FALSE)
 		if(do_after(user,2 SECONDS, target = src))
 			reagents.trans_to(I, reagents.total_volume)
 	return TRUE
+
+/obj/item/reagent_containers/glass/bucket/pot/attack_obj(obj/target, mob/living/user)
+	if(has_lid && (user.used_intent.type == INTENT_POUR || user.used_intent.type == INTENT_SPLASH))
+		to_chat(user, span_warning("I need to remove the lid from [src] first."))
+		return
+	return ..()
 
 /obj/item/reagent_containers/glass/bucket/pot/aalloy
 	name = "decrepit pot"
@@ -101,6 +132,13 @@
 	volume = 120
 	sellprice = 20
 	lid_icon_state = null
+	has_lid = FALSE
+
+/obj/item/reagent_containers/glass/bucket/pot/teapot/toggle_lid(mob/user)
+	reagent_flags |= OPENCONTAINER
+	has_lid = FALSE
+	to_chat(user, span_info("The teapot's lid isn't handled separately."))
+	return FALSE
 
 /obj/item/reagent_containers/glass/bucket/pot/carved
 	name = "carved teapot"
