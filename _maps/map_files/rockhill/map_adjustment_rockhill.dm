@@ -7,13 +7,24 @@
 /datum/map_adjustment/template/rockhill
 	map_file_name = "rockhill.dmm"
 	realm_name = "Rockhill"
-	blacklist = list(
+	blacklist = list(//I had wanted the map variable in the roles themselves to bar them from non-desert maps but it still shows up in the Latejoin menu so I'm doing this just to keep it clear)
+		/datum/job/roguetown/cataphract,
+		// /datum/job/roguetown/vizier,
+		/datum/job/roguetown/headslave,
+		// /datum/job/roguetown/sheikh,
+		/datum/job/roguetown/janissary,
+		/datum/job/roguetown/janissarysergeant,
+		/datum/job/roguetown/azeb,
+		/datum/job/roguetown/azebagha,
+		/datum/job/roguetown/slavemaster,
+		/datum/job/roguetown/slave,
+		/datum/job/roguetown/adventurer/courtslave,
+		
 		/datum/job/roguetown/sergeant,
 		)
 	slot_adjust = list(
-		/datum/job/roguetown/manorguard = 4,
-		/datum/job/roguetown/warden = 4,
-		/datum/job/roguetown/squire = 3,//Rookie (and by extension vanguard) kinda fill this role somewhat.
+		/datum/job/roguetown/manorguard = 4,//split with watchmen
+		/datum/job/roguetown/warden = 4,//split with vanguard
 	)
 	title_adjust = list(
 		/datum/job/roguetown/physician = list(display_title = "Court Physician"),
@@ -40,7 +51,7 @@
 		/datum/job/roguetown/marshal = "You are an agent of the crown in matters of law and military, making sure that laws are pushed, verified and carried out by the retinue upon the citizenry of the realm. \
 				As the ultimate authority on all things military, much of your work happens behind a desk, deferring duties between the Knight Captain, Watch Captain and Master Warden and acting as the primary \
 				go-between to ensure the will of the duke, through you, is carried out in the field.",
-	tutorial = "Odd-jobs, running messages, fixing dents and talking to locals; the City Watch can always use a spare pair of hands, eyes and ears. Assist your fellow city watchmen in dealing with threats - both within and without. \
+		/datum/job/roguetown/rookie = "Odd-jobs, running messages, fixing dents and talking to locals; the City Watch can always use a spare pair of hands, eyes and ears. Assist your fellow city watchmen in dealing with threats - both within and without. \
 				Given a brief introduction in weapons and guardwork, the rest of your training is to be picked up on the job. \
 				Obey your superiors (everyone who isn't you) and show the nobles your respect. Keep an eye out, try to learn a thing or two, then one day you might live to make an adequate soldier."
 	
@@ -57,3 +68,4 @@
 		THREAT_REGION_ROCKHILL_WOODS_NORTH,
 		THREAT_REGION_ROCKHILL_WOODS_SOUTH
 	)
+d
