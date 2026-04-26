@@ -1,5 +1,5 @@
 /datum/advclass/artificer
-	name = "Engineer"
+	name = "Tinkerer"
 	tutorial = "One of the brilliant minds that survived the disaster that befell Heartfelt. Perhaps you weren't able to prevent what happened in your homeland, but with your knowledge and skill, perhaps you can shape what happens from now on in your life as you venture towards a new beginning."
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_races = RACES_ALL_KINDS
