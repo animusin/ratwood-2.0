@@ -17,7 +17,7 @@
 	outfit = /datum/outfit/job/roguetown/chaplain
 	tutorial = "The time most acolytes put towards reaching deeper into the divine, you spent gladhanding discrete political deals, and studying the land claims and house feuds of the world's noble families. \
 				You may not be as divinely gifted as the average acolyte in the more... showy ways of magic and miracle, but you suffer well with influence and the city lord's ear instead, liasing between church and court as advisor and diplomat. \
-				And is that not the truest form of power?. Some call you a scheming manipulator, twisting the Duke's ear towards the will of the Bishop, a spy on their behalf. Others suspect, in hushed tones, that the Duke may come to prefer your sweet whispers to the Prelate's. \
+				And is that not the truest form of power? Some call you a scheming manipulator, twisting the Duke's ear towards the will of the Bishop, a spy on their behalf. Others suspect, in hushed tones, that the Duke may come to prefer your sweet whispers to the Prelate's. \
 				Only when swords are drawn might your true loyalties be discovered, between church and court."
 	display_order = JDO_CHAPLAIN
 	give_bank_account = TRUE
@@ -31,37 +31,37 @@
 	job_subclasses = list(
 		/datum/advclass/chaplain
 	)
-/datum/job/roguetown/chaplain/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
-	..()
-	if(ishuman(L))
-		var/mob/living/carbon/human/H = L
-		H.advsetup = 1
-		H.invisibility = INVISIBILITY_MAXIMUM
-		H.become_blind("advsetup")
-//Title stuff. This is super sloppy.
-		var/prev_real_name = H.real_name
-		var/prev_name = H.name
-//Default fallback title.
-		var/title = "Devotee"
-//Actual titles now, based on pronouns.
-		switch(H.pronouns)
-			if(SHE_HER)
-				title = "Sister"
-			if(SHE_HER_M)
-				title = "Sister"
-			if(HE_HIM)
-				title = "Brother"
-			if(HE_HIM_F)
-				title = "Brother"
-//Now apply the actual title.
-		H.real_name = "[title] [prev_real_name]"
-		H.name = "[title] [prev_name]"
+// /datum/job/roguetown/chaplain/after_spawn(mob/living/L, mob/M, latejoin = TRUE)//distinction from the acolytes
+// 	..()
+// 	if(ishuman(L))
+// 		var/mob/living/carbon/human/H = L
+// 		H.advsetup = 1
+// 		H.invisibility = INVISIBILITY_MAXIMUM
+// 		H.become_blind("advsetup")
+// //Title stuff. This is super sloppy.
+// 		var/prev_real_name = H.real_name
+// 		var/prev_name = H.name
+// //Default fallback title.
+// 		var/title = "Devotee"
+// //Actual titles now, based on pronouns.
+// 		switch(H.pronouns)
+// 			if(SHE_HER)
+// 				title = "Sister"
+// 			if(SHE_HER_M)
+// 				title = "Sister"
+// 			if(HE_HIM)
+// 				title = "Brother"
+// 			if(HE_HIM_F)
+// 				title = "Brother"
+// //Now apply the actual title.
+// 		H.real_name = "[title] [prev_real_name]"
+// 		H.name = "[title] [prev_name]"
 
 /datum/advclass/chaplain
 	name = "Court Chaplain"
 	tutorial = "The time most acolytes put towards reaching deeper into the divine, you spent gladhanding discrete political deals, and studying the land claims and house feuds of the world's noble families.\
  You may not be as divinely gifted as the average acolyte in the more... showy ways of magic and miracle, but you suffer well with influence and the city lord's ear instead, liasing between church and court as advisor and diplomat. \
- And is that not the truest form of power?. Some call you a scheming manipulator, twisting the Duke's ear towards the will of the Bishop, a spy on their behalf. Others suspect, in hushed tones, that the Duke may come to prefer your sweet whispers to the Prelate's. \
+ And is that not the truest form of power? Some call you a scheming manipulator, twisting the Duke's ear towards the will of the Bishop, a spy on their behalf. Others suspect, in hushed tones, that the Duke may come to prefer your sweet whispers to the Prelate's. \
  Only when swords are drawn might your true loyalties be discovered, between church and court."
 	outfit = /datum/outfit/job/roguetown/chaplain/basic
 	subclass_languages = list(/datum/language/grenzelhoftian)
@@ -100,10 +100,9 @@
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/mid//court money
 	beltl = /obj/item/storage/keyring/chaplain
 	backl = /obj/item/storage/backpack/rogue/satchel
-	backr = /obj/item/rogueweapon/woodstaff
-	head = /obj/item/clothing/head/roguetown/priesthat
-	cloak = /obj/item/clothing/cloak/chasuble
+	backr = /obj/item/rogueweapon/woodstaff/quarterstaff
 	backpack_contents = list(/obj/item/ritechalk)
+	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest
 	H.cmode_music = 'sound/music/cmode/church/combat_acolyte.ogg' // has to be defined here for the selection below to work. sm1 please rewrite cmusic to apply pre-equip.
 	switch(H.patron?.type)
 		if(/datum/patron/divine/astrata)
@@ -152,7 +151,6 @@
 			neck = /obj/item/clothing/neck/roguetown/psicross/eora
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/eora
-			cloak = /obj/item/clothing/cloak/templar/eoran
 		if(/datum/patron/divine/malum)
 			mask = /obj/item/clothing/head/roguetown/roguehood
 			neck = /obj/item/clothing/neck/roguetown/psicross/malum
