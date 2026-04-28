@@ -346,3 +346,9 @@
   - rscadd: Barbarians get some outdoors skills now.
   kimesik:
   - rscadd: Virtues and sins (fluff) for each of patron gods.
+2026-04-28:
+  Jamdrawers:
+  - rscadd: Added chastity cages, dildos and more to the nightmaster's buy-menu
+  NotGoldenglow:
+  - balance: arcyne potential is no longer limited by crit/dodge/pain trait/armor
+      proficiency. if you previously did not qualify for this trait, you now do.
