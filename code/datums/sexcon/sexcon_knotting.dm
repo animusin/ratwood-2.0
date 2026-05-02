@@ -21,14 +21,20 @@
 	return FALSE
 
 /datum/sex_controller/proc/knot_check_remove(action_path)
-	if(!user.sexcon.knotted_status && !target.sexcon.knotted_status)
+	var/datum/sex_controller/user_sexcon = user?.sexcon
+	var/datum/sex_controller/target_sexcon = target?.sexcon
+	if(!user_sexcon || !target_sexcon)
+		return
+	if(!user_sexcon.knotted_status && !target_sexcon.knotted_status)
 		return
 	var/datum/sex_action/action = SEX_ACTION(action_path)
-	if(action.user_sex_part & user.sexcon.knotted_part) // check if the knot is not blocking these actions, and thus requires a forceful removal
+	if(!action)
+		return
+	if(action.user_sex_part & user_sexcon.knotted_part) // check if the knot is not blocking these actions, and thus requires a forceful removal
 		var/forced_insertion = force >= SEX_FORCE_EXTREME && speed >= SEX_SPEED_EXTREME
-		user.sexcon.knot_remove(forceful_removal = forced_insertion)
-	if(action.target_sex_part & target.sexcon.knotted_part)
-		target.sexcon.knot_remove()
+		user_sexcon.knot_remove(forceful_removal = forced_insertion)
+	if(action.target_sex_part & target_sexcon.knotted_part)
+		target_sexcon.knot_remove()
 
 /datum/sex_controller/proc/knot_try(datum/sex_action/knot_action = null, knot_swap_roles = FALSE, mob/living/carbon/human/knot_btm = null)
 	var/datum/sex_action/action = knot_action
@@ -48,15 +54,19 @@
 	var/mob/living/carbon/human/btm = knot_btm ? knot_btm : target
 	if(!btm)
 		return
+	var/datum/sex_controller/user_sexcon = user?.sexcon
+	var/datum/sex_controller/btm_sexcon = btm?.sexcon
+	if(!user_sexcon || !btm_sexcon)
+		return
 
-	if(!user.sexcon.do_knot_action && !(knot_swap_roles && btm.sexcon.do_knot_action_as_bottom))
+	if(!user_sexcon.do_knot_action && !(knot_swap_roles && btm_sexcon.do_knot_action_as_bottom))
 		return
 	if(!user.sexcon.knot_penis_type()) // don't have that dog in 'em
 		return
 	if(!btm.client?.prefs?.sexable)
 		return
-	var/btm_forced = knot_swap_roles && btm.sexcon.do_knot_action_as_bottom && !user.sexcon.do_knot_action
-	if(user.sexcon.considered_limp())
+	var/btm_forced = knot_swap_roles && btm_sexcon.do_knot_action_as_bottom && !user_sexcon.do_knot_action
+	if(user_sexcon.considered_limp())
 		if(!user.sexcon.knotted_status)
 			to_chat(user, span_notice("My [user.sexcon.get_knot_synonym()] was too soft to tie."))
 		if(!btm.sexcon.knotted_status)
@@ -161,27 +171,31 @@
 		UnregisterSignal(mover, COMSIG_MOVABLE_MOVED)
 		return
 	var/mob/living/carbon/human/user = mover
-	switch(user.sexcon.knotted_status)
+	var/datum/sex_controller/mover_sexcon = user?.sexcon
+	if(!mover_sexcon)
+		UnregisterSignal(user, COMSIG_MOVABLE_MOVED)
+		return
+	switch(mover_sexcon.knotted_status)
 		if(KNOTTED_AS_TOP)
-			addtimer(CALLBACK(user.sexcon, PROC_REF(knot_movement_top)), 1)
+			addtimer(CALLBACK(mover_sexcon, PROC_REF(knot_movement_top)), 1)
 		if(KNOTTED_AS_BTM)
-			if(user.sexcon.tugging_knot) // we're currently moving the bottom back to the top, don't run proc until we've finished
+			if(mover_sexcon.tugging_knot) // we're currently moving the bottom back to the top, don't run proc until we've finished
 				return
-			addtimer(CALLBACK(user.sexcon, PROC_REF(knot_movement_btm)), 1)
+			addtimer(CALLBACK(mover_sexcon, PROC_REF(knot_movement_btm)), 1)
 		if(KNOTTED_NULL) // this should never hit, but if it does remove callback
-			UnregisterSignal(user.sexcon.user, COMSIG_MOVABLE_MOVED)
+			UnregisterSignal(mover_sexcon.user, COMSIG_MOVABLE_MOVED)
 
 /datum/sex_controller/proc/knot_movement_top()
 	var/mob/living/carbon/human/top = knotted_owner
 	var/mob/living/carbon/human/btm = knotted_recipient
-	if(!ishuman(btm) || QDELETED(btm) || !ishuman(top) || QDELETED(top))
+	if(!ishuman(btm) || QDELETED(btm) || !ishuman(top) || QDELETED(top) || !top?.sexcon || !btm?.sexcon)
 		knot_exit()
 		return
 	if(isnull(top.client) || !top.client?.prefs.sexable || isnull(btm.client) || !btm.client?.prefs.sexable) // we respect safewords here, let the players untie themselves
 		knot_remove()
 		return
 	if(prob(10) && top.m_intent == MOVE_INTENT_WALK && (btm in top.buckled_mobs)) // if the two characters are being held in a fireman carry, let them muturally get pleasure from it
-		var/obj/item/organ/penis/penis = user.getorganslot(ORGAN_SLOT_PENIS)
+		var/obj/item/organ/penis/penis = top.getorganslot(ORGAN_SLOT_PENIS)
 		top.sexcon.perform_sex_action(btm, penis?.penis_size > DEFAULT_PENIS_SIZE ? 6.0 : 3.0, 2, FALSE)
 		btm.sexcon.handle_passive_ejaculation()
 		if(prob(50))
@@ -255,7 +269,7 @@
 /datum/sex_controller/proc/knot_movement_btm()
 	var/mob/living/carbon/human/top = knotted_owner
 	var/mob/living/carbon/human/btm = knotted_recipient
-	if(!ishuman(btm) || QDELETED(btm) || !ishuman(top) || QDELETED(top))
+	if(!ishuman(btm) || QDELETED(btm) || !ishuman(top) || QDELETED(top) || !top?.sexcon || !btm?.sexcon)
 		knot_exit()
 		return
 	if(isnull(top.client) || !top.client?.prefs.sexable || isnull(btm.client) || !btm.client?.prefs.sexable) // we respect safewords here, let the players untie themselves
