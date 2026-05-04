@@ -28,7 +28,7 @@
 			return FALSE
 	if(has_status_effect(/datum/status_effect/debuff/exposed))
 		return FALSE
-	if(has_status_effect(/datum/status_effect/debuff/riposted))
+	if(has_status_effect(/datum/status_effect/debuff/exposed) || has_status_effect(/datum/status_effect/debuff/vulnerable))
 		return FALSE
 	last_parry = world.time
 	if(intenty && !intenty.canparry)
