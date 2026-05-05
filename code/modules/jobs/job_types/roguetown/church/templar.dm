@@ -191,7 +191,7 @@
 			weapons += "Censure"
 			weapons -= "Longsword"//Censure takes priority.
 		if(/datum/patron/divine/eora)
-			weapons += list("The Heartstring", "Close Caress", "Harp Bow")
+			weapons += list("The Heartstring", "Close Caress", "Harp Bow (long)", "Harp Bow (short)")
 			weapons -= "Longsword"//Heartstring takes priority.
 		if(/datum/patron/divine/abyssor)
 			weapons += list("Tidecleaver", "Barotrauma")
@@ -283,7 +283,7 @@
 			H.adjust_skillrank(/datum/skill/combat/wrestling, -1, TRUE)//Haha... no.
 			H.change_stat(STATKEY_SPD, 1)
 			H.change_stat(STATKEY_STR, -1)
-		if("Harp Bow (recurve)")
+		if("Harp Bow (short)")
 			H.equip_to_slot_or_del(new /obj/item/quiver/arrows, SLOT_BELT_R, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/half, SLOT_ARMOR, TRUE) //Cuirass, not halfplate. Slightly reduced starting armor.
 			H.put_in_hands(new /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/eora(H), TRUE)
