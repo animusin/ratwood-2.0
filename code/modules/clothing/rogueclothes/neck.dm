@@ -1143,3 +1143,11 @@
 	icon_state = "amulet_shell"
 	slot_flags = ITEM_SLOT_NECK
 	sellprice = 25
+
+/obj/item/clothing/neck/roguetown/carved/chitinamulet
+	name = "chitin amulet"
+	desc = "An amulet carved from beetle chitin."
+	icon_state = "amulet_shell"
+	color = "#7B8C5E"
+	slot_flags = ITEM_SLOT_NECK
+	sellprice = 20
