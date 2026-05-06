@@ -888,7 +888,7 @@
 		/datum/intent/sword/chop/short,
 		)
 	icon_state = "eastshortsword"
-	sheathe_icon = "kodachi"
+	sheathe_icon = "mulyeog"
 
 /obj/item/rogueweapon/sword/short/iron
 	name = "iron shortsword"
