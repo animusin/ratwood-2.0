@@ -36,10 +36,6 @@
 /datum/anvil_recipe/weapons/decorated
 	abstract_type = /datum/anvil_recipe/weapons/decorated
 	craftdiff = SKILL_LEVEL_EXPERT
-
-/datum/anvil_recipe/weapons/gold
-	abstract_type = /datum/anvil_recipe/weapons/
-	craftdiff = SKILL_LEVEL_EXPERT
 	req_bar = /obj/item/ingot/gold
 
 /datum/anvil_recipe/weapons/silver
