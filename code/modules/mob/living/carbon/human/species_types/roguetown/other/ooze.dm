@@ -3,11 +3,11 @@
 	id = "ooze"
 	desc = "<b>Ooze</b><br>\
 	Oozes are gelatinous lifeforms formed from liquid that submerged disembodied lux. \
-	They contain no bones or unqiue organs, but function similarly to other creatures in that regard. \
-	However, they are very vulnerable to loss of limbs, \
-	though they are fortunate in that they can regenerate them through great effort.\
-	THIS IS A WORK IN PROGRESS AND PLAYTEST SPECIES, EXPECT BUGS AND UNFINISHED FEATURES.\
-	PLEASE REPORT ANY ISSUES YOU FIND TO THE DISCORD AND GITHUB!!!!"
+	Boneless and so different from the rest of Psydonia's species - they have recently started appearing in places of civilization. \
+	Supposedly - they come from deeper dungeons, and naturally manifest within humid environments. \
+	However, their shapeshifting nature has also resulted in their innate fragiliy.<br>\
+	(+1 CON | + WIL | -1 INT) <br>\
+	Easy Dismember | Limb Regrowth | No Bones | No Blood</b></span><br><br>"
 
 
 	default_color = "79F299"
@@ -37,13 +37,14 @@
 		OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDIES_F = list(0,-1), \
 		OFFSET_TAUR = list(-16,0), OFFSET_TAUR_F = list(-16,0), \
 		)
-	race_bonus = list(STAT_PERCEPTION = 1, STAT_INTELLIGENCE = -1)
+	race_bonus = list(STAT_CONSTITUTION = 1, STAT_WILLPOWER = 1, STAT_INTELLIGENCE = -1)
 	inherent_traits = list(
 						TRAIT_NOBREATH,
 						TRAIT_ZOMBIE_IMMUNE,
 						TRAIT_BLOODLOSS_IMMUNE,
 						TRAIT_EASYDISMEMBER,
 						TRAIT_REGROW_LIMBS,
+						TRAIT_NASTY_EATER,
 						)
 	allowed_taur_types = list(
 		/obj/item/bodypart/taur/lamia,
