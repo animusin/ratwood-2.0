@@ -74,7 +74,7 @@
 	flags_inv = HIDEBOOB|HIDECROTCH
 	grid_width = 64
 	grid_height = 64
-
+	sewrepair = FALSE
 	var/attachment_component = /datum/component/storage/concrete/roguetown/armor
 
 /obj/item/clothing/suit/roguetown/armor/Initialize(mapload)
@@ -116,4 +116,3 @@
 				thing_appearance.pixel_y += standing.pixel_y
 				standing.add_overlay(thing_appearance)
 	return standing
-	sewrepair = FALSE
