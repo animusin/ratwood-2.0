@@ -67,10 +67,11 @@
 /datum/component/riding/proc/vehicle_moved(datum/source)
 	var/atom/movable/AM = parent
 	AM.set_glide_size(DELAY_TO_GLIDE_SIZE(vehicle_move_delay))
+	var/mob/living/rider
 	for(var/mob/M in AM.buckled_mobs)
 		if(!istype(M, /mob/living))
 			continue
-		var/mob/living/rider = M
+		rider = M
 		ride_check(M)
 		M.set_glide_size(AM.glide_size)
 		// Award riding XP if the RIDER is in run intent while moving on mount
