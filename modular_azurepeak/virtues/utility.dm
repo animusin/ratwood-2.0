@@ -31,7 +31,7 @@
 /datum/virtue/utility/deadened
 	name = "Deadened"
 	desc = "Some terrible incident colours my past, and now, I feel nothing."
-	added_traits = list(TRAIT_NOMOOD)
+	added_traits = list(TRAIT_NOMOOD, TRAIT_DETACHED)
 
 /datum/virtue/utility/light_steps
 	name = "Light Steps"

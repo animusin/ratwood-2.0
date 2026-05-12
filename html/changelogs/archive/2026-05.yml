@@ -222,3 +222,24 @@
   - rscadd: Lacrima, a tier three ZIZO miracle for necromancers that tears out the
       lux from a victim
   - rscadd: makes the zizo bible not complete placeholder ass
+2026-05-11:
+  EvenInDeathIStillServe:
+  - rscadd: Characters with the deadened virtue will no longer unintentionally scream,
+      groan, moan, or any other emote that would necessitate showing emotions.
+  - rscadd: Sex moans can be used at will through *sexmoanhvy and *sexmoanlight
+  IronDragoon:
+  - rscadd: Ruma Seonjang, functionally almost identical to Gun-in but flavoured as
+      the group boss, gets a gold sword
+  - rscadd: 13 new shamisen tracks and 3 new kazen combat tracks
+  - rscadd: adds kodachi (kazen short sword, just a retexture) to the silverface
+  - bugfix: fixed kazen scabbard in merchants
+  Jamdrawers:
+  - bugfix: fixes a bunch of things being repairable with sewing that weren't supposed
+      to be
+  Randumb-Phantomb:
+  - image: 5 new hairs!
+  Xander3359:
+  - bugfix: You are no longer slowed down by turfs if you are flying or floating
+2026-05-12:
+  zeroisthebiggay:
+  - rscadd: revenants can wear socks

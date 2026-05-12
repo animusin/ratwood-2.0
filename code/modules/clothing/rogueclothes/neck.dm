@@ -6,6 +6,7 @@
 	bloody_icon_state = "bodyblood"
 	experimental_inhand = FALSE
 	alternate_worn_layer = NECK_LAYER
+	sewrepair = FALSE //most neck items are necklaces or armor
 	var/overarmor
 
 /obj/item/clothing/neck/roguetown/examine()
