@@ -5,9 +5,9 @@
 /obj/item/seal
 	name = "wax seal"
 	desc = "A small seal for marking official documents. It has a small loop to attach it to a keyring."
-	icon = 'icons/roguetown/items/misc.dmi'
-	icon_state = "ring_g"
-	item_state = "ring_g"
+	icon = 'icons/roguetown/clothing/rings.dmi'
+	icon_state = "signet"
+	item_state = "signet"
 	w_class = WEIGHT_CLASS_TINY
 	var/tallowed = FALSE
 	var/seal_label = "Official Seal"
@@ -24,9 +24,25 @@
 
 /obj/item/seal/update_icon()
 	if(tallowed)
-		icon_state = "ring_g"
+		icon_state = "signet_stamp"
 	else
-		icon_state = "ring_g"
+		icon_state = "signet"
+
+/obj/item/seal/attackby(obj/item/I, mob/living/user, params)
+	if(istype(I, /obj/item/inqarticles/tallowpot))
+		var/obj/item/inqarticles/tallowpot/pot = I
+		if(!pot.tallow)
+			to_chat(user, span_warning("The [pot] has no redtallow in it."))
+			return
+		if(!pot.heatedup)
+			to_chat(user, span_warning("The redtallow in [pot] is hardened. I need to heat it first."))
+			return
+		tallowed = TRUE
+		update_icon()
+		to_chat(user, span_notice("I coat [src] with melted redtallow."))
+		return
+
+	return ..()
 
 /obj/item/seal/custom
 	name = "blank custom seal"
