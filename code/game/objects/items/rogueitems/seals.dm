@@ -5,7 +5,7 @@
 /obj/item/seal
 	name = "wax seal"
 	desc = "A pressed wax seal for marking official documents."
-	icon = 'icons/roguetown/items/documents.dmi'
+	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "wax_seal"
 	item_state = "wax_seal"
 	w_class = WEIGHT_CLASS_TINY
@@ -15,7 +15,7 @@
 	var/seal_is_official = TRUE
 
 /obj/item/seal/attack_right(mob/user)
-	if(user.canUseTrait(/datum/trait/blindness))
+	if(is_blind(user))
 		return TRUE
 	user.visible_message(span_notice("[user] scrapes the tallow off of [src]."))
 	tallowed = FALSE
@@ -40,7 +40,7 @@
 	if(customized)
 		to_chat(user, span_warning("[src] is already engraved and cannot be changed."))
 		return
-	if(user.canUseTrait(/datum/trait/blindness))
+	if(is_blind(user))
 		return
 	var/new_label = stripped_input(user, "Engrave your seal text (once only):", "Custom Seal Engraving", "", 64)
 	if(!new_label)
