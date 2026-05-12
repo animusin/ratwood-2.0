@@ -35,15 +35,15 @@
 /obj/item/seal/attackby(obj/item/I, mob/living/user, params)
 	if(istype(I, /obj/item/inqarticles/tallowpot))
 		var/obj/item/inqarticles/tallowpot/pot = I
-		if(!pot.tallow)
+		if(!pot.loaded_tallow)
 			to_chat(user, span_warning("The [pot] has no tallow in it."))
 			return
 		if(!pot.heatedup)
-			to_chat(user, span_warning("The [pot.tallow] in [pot] is hardened. I need to heat it first."))
+			to_chat(user, span_warning("The [pot.loaded_tallow] in [pot] is hardened. I need to heat it first."))
 			return
 		tallowed = TRUE
 		update_icon()
-		to_chat(user, span_notice("I coat [src] with melted [pot.tallow]."))
+		to_chat(user, span_notice("I coat [src] with melted [pot.loaded_tallow]."))
 		return
 
 	return ..()

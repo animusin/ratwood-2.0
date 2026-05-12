@@ -692,6 +692,7 @@
 		var/obj/item/clothing/ring/signet/ring = P
 		if(ring.tallowed && info && !seal_label)
 			ring.tallowed = FALSE
+			ring.inquisitorial_tallow = FALSE
 			ring.update_icon()
 			seal_label = ring.seal_label
 			seal_color = ring.seal_color

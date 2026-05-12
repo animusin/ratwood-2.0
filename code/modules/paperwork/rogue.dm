@@ -450,14 +450,14 @@
 		if(waxed)
 			to_chat(user,  span_warning("It's already wax-sealed."))
 			return
-		if(S.tallowed && requires_inquisitorial_tallow() && !ispath(S.tallow_type, /obj/item/reagent_containers/food/snacks/tallow/red))
+		if(S.tallowed && requires_inquisitorial_tallow() && !S.inquisitorial_tallow)
 			to_chat(user, span_warning("I must use Inquisitorial Tallow for this holy missive"))
 			return
 		if(S.tallowed && sealed)
 			waxed = TRUE
 			update_icon()
 			S.tallowed = FALSE
-			S.tallow_type = null
+			S.inquisitorial_tallow = FALSE
 			S.update_icon()
 			playsound(src, 'sound/items/inqslip_sealed.ogg', 75, TRUE, 4)
 			marquevalue += 2

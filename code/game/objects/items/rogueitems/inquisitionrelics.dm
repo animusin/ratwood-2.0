@@ -678,7 +678,7 @@ Inquisitorial armory down here
 
 /obj/item/inqarticles/tallowpot
 	name = "tallowpot"
-	desc = "A small metal pot meant for holding waxes or melted tallow. Convenient for coating signet rings and making an imprint. The warmth of a torch, lamptern, or candle should be enough to melt the tallow for stamping writs."
+	desc = "A small metal pot meant for holding waxes or melted tallow. Convenient for coating signet rings and making an imprint. The warmth of a torch, lamptern, or candle should be enough to melt tallow for stamping writs, especially Inquisitorial Tallow."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "tallowpot"
 	item_state = "tallowpot"
@@ -694,7 +694,7 @@ Inquisitorial armory down here
 	w_class = WEIGHT_CLASS_SMALL
 	intdamage_factor = 0
 	embedding = null
-	var/tallow
+	var/obj/item/reagent_containers/food/snacks/tallow/loaded_tallow
 	var/remaining
 	var/heatedup
 	var/messageshown = 1
@@ -714,27 +714,27 @@ Inquisitorial armory down here
 		remaining = max(remaining - -20, 0)
 		messageshown = 0
 	else
-		if(tallow)
+		if(loaded_tallow)
 			if(!messageshown)
-				visible_message(span_info("The [tallow] in [src] hardens again."))
+				visible_message(span_info("The [loaded_tallow] in [src] hardens again."))
 				messageshown = 1
 			update_icon()
 	if(remaining == 0)
-		qdel(tallow)
-		tallow = initial(tallow)
+		qdel(loaded_tallow)
+		loaded_tallow = initial(loaded_tallow)
 		update_icon()
 
 /obj/item/inqarticles/tallowpot/attacked_by(obj/item/I, mob/living/user)
 	. = ..()
 	if(istype(I, /obj/item/reagent_containers/food/snacks/tallow/soft) || istype(I, /obj/item/reagent_containers/food/snacks/tallow/red))
-		if(!tallow)
+		if(!loaded_tallow)
 			var/obj/item/reagent_containers/food/snacks/tallow/Q = I
-			tallow = Q
+			loaded_tallow = Q
 			user.transferItemToLoc(Q, src, TRUE)
 			remaining = 300
 			update_icon()
 		else
-			to_chat(user, span_info("The [src] already has [tallow] in it."))
+			to_chat(user, span_info("The [src] already has [loaded_tallow] in it."))
 
 	if(istype(I, /obj/item/flashlight/flare/torch/))
 		heatedup = 28
@@ -747,14 +747,14 @@ Inquisitorial armory down here
 		update_icon()
 
 	if(istype(I, /obj/item/clothing/ring/signet))
-		if(tallow && heatedup)
+		if(loaded_tallow && heatedup)
 			var/obj/item/clothing/ring/signet/ring = I
 			ring.tallowed = TRUE
-			ring.tallow_type = tallow.type
+			ring.inquisitorial_tallow = istype(loaded_tallow, /obj/item/reagent_containers/food/snacks/tallow/red)
 			ring.update_icon()
 
 	if(istype(I, /obj/item/seal))
-		if(tallow && heatedup)
+		if(loaded_tallow && heatedup)
 			var/obj/item/seal/seal = I
 			seal.tallowed = TRUE
 			seal.update_icon()
@@ -762,7 +762,7 @@ Inquisitorial armory down here
 
 /obj/item/inqarticles/tallowpot/update_icon()
 	. = ..()
-	if(tallow)
+	if(loaded_tallow)
 		icon_state = "[initial(icon_state)]_filled"
 		if(heatedup)
 			icon_state = "[initial(icon_state)]_melted"
