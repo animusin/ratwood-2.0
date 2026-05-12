@@ -88,13 +88,17 @@
 	var/trapped
 	/// Raw text source used by the tgui writer panel.
 	var/writer_body
+	/// True when writer_body was derived from existing HTML instead of previously authored raw text.
+	var/writer_body_imported = FALSE
 
 /obj/item/paper/proc/get_writer_body()
-	if(!writer_body)
+	if(isnull(writer_body))
 		if(info)
 			writer_body = strip_html_simple(info, maxlen)
+			writer_body_imported = findtext(info, "<") ? TRUE : FALSE
 		else
 			writer_body = ""
+			writer_body_imported = FALSE
 	return writer_body
 
 /obj/item/paper/proc/can_use_writer(mob/living/carbon/human/user, obj/item/P)
@@ -105,6 +109,8 @@
 	if(!user.can_read(src))
 		return FALSE
 	if(mailer)
+		return FALSE
+	if(!in_range(src, user) && loc != user && loc.loc != user)
 		return FALSE
 	if(!P)
 		P = user.get_active_held_item()
@@ -134,6 +140,7 @@
 	data["body"] = body
 	data["maxlen"] = maxlen
 	data["body_len"] = length(body)
+	data["needs_import_confirm"] = writer_body_imported
 	return data
 
 /obj/item/paper/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
@@ -151,6 +158,10 @@
 				to_chat(user, span_warning("I need a feather or thorn in hand to write."))
 				return TRUE
 
+				if(writer_body_imported && !text2num(params["force"]))
+					to_chat(user, span_warning("This document came from existing formatted text. Saving now may simplify old formatting. Press Save Anyway to confirm."))
+					return TRUE
+
 			var/new_body = params["body"] || ""
 			new_body = copytext(new_body, 1, maxlen + 1)
 
@@ -163,6 +174,7 @@
 				return TRUE
 
 			writer_body = new_body
+				writer_body_imported = FALSE
 			info = new_info
 			updateinfolinks()
 			update_icon_state()
@@ -172,6 +184,7 @@
 
 		if("clear")
 			writer_body = ""
+				writer_body_imported = FALSE
 			info = ""
 			fields = 0
 			updateinfolinks()
@@ -393,6 +406,8 @@
 
 /obj/item/paper/proc/clearpaper()
 	info = null
+	writer_body = ""
+	writer_body_imported = FALSE
 	stamps = null
 	seal_label = null
 	seal_color = initial(seal_color)
@@ -517,6 +532,8 @@
 				testing("[length(info)]")
 				testing("[findtext(info, "\n")]")
 				updateinfolinks()
+			writer_body = null
+			writer_body_imported = FALSE
 			playsound(src, 'sound/items/write.ogg', 100, FALSE)
 			format_browse(info_links, usr)
 			update_icon_state()
@@ -582,9 +599,9 @@
 		if(ring.tallowed && info && !seal_label)
 			ring.tallowed = FALSE
 			ring.update_icon()
-			seal_label = "Lord Inquisitor of the Otavan Mission in The Vale"
-			seal_color = "#6b0000"
-			seal_is_official = TRUE
+			seal_label = ring.seal_label
+			seal_color = ring.seal_color
+			seal_is_official = ring.seal_is_official
 			seal_broken = FALSE
 			user.visible_message(span_notice("[user] presses [ring] onto [src], sealing it with an inquisitorial seal."))
 			return

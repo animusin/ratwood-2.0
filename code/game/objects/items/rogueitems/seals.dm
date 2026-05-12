@@ -45,7 +45,7 @@
 	var/new_label = stripped_input(user, "Engrave your seal text (once only):", "Custom Seal Engraving", "", 64)
 	if(!new_label)
 		return
-	new_label = trim(new_label)
+	new_label = trim(STRIP_HTML_SIMPLE(new_label, 64))
 	if(!length(new_label))
 		to_chat(user, span_warning("The engraving must contain text."))
 		return
