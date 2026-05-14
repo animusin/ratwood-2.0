@@ -69,28 +69,28 @@
 	craftdiff = 5
 
 /datum/crafting_recipe/roguetown/structure/statue/grand/zizo
-	name = "statue (Zizo, grand)"
+	name = "statue (grand, Zizo)"
 	result = /obj/structure/fluff/statue/zizo
 
 /datum/crafting_recipe/roguetown/structure/statue/grand/astrata
-	name = "statue (Astrata, grand)"
+	name = "statue (grand, Astrata)"
 	result = /obj/structure/fluff/statue/astrata/gold
 
 /datum/crafting_recipe/roguetown/structure/statue/grand/eora
-	name = "statue (Eora, grand)"
+	name = "statue (grand, Eora)"
 	result = /obj/structure/fluff/statue/eora
 
 /datum/crafting_recipe/roguetown/structure/statue/grand/noc
-	name = "statue (Noc, grand)"
+	name = "statue (grand, Noc)"
 	result = /obj/structure/fluff/statue/noc
 
 /datum/crafting_recipe/roguetown/structure/statue/grand/abyssor
-	name = "statue (Abyssor, grand)"
+	name = "statue (grand, Abyssor)"
 	result = /obj/structure/fluff/statue/abyssor
 	reqs = list(/obj/item/natural/stone = 5)
 	craftdiff = 5
 
 /datum/crafting_recipe/roguetown/structure/statue/grand/abyssor/dolomite
-	name = "statue (Abyssor, dolomite, grand)"
+	name = "statue (grand, Abyssor (dolomite))"
 	result = /obj/structure/fluff/statue/abyssor/dolomite
 
