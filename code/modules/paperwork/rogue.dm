@@ -1,8 +1,9 @@
 // Only show the 'Read' prompt if the scroll is open and has info
 /obj/item/paper/scroll/examine(mob/user)
-       . = ..()
-       if(info && open)
-	       . += "<a href='?src=[REF(src)];read=1'>Read</a>"
+	. = ..()
+	if(info && open)
+		. += "<a href='?src=[REF(src)];read=1'>Read</a>"
+
 /obj/item/paper/scroll
 	name = "papyrus"
 	icon_state = "scroll"
@@ -18,12 +19,6 @@
 /obj/item/paper/scroll/Initialize(mapload)
 	. = ..()
 	open_empty_icon_state = "scroll"
-	open_written_icon_state = "scrollwrite"
-	folded_icon_state = "scroll_folded"
-	sealed_icon_state = "scroll_sealed"
-	sealed_tint_icon_state = "scroll_sealed_tint"
-	update_icon_state()
-
 
 /obj/item/paper/scroll/attackby(obj/item/P, mob/living/carbon/human/user, params)
 	if(istype(P, /obj/item/natural/thorn) || istype(P, /obj/item/natural/feather))
@@ -335,8 +330,7 @@
 	sliptype = 0
 
 	examine(mob/user)
-		 return span_notice(desc)
-
+		return span_notice(desc)
 
 /obj/item/paper/inqslip/confession
 	name = "confession"
@@ -346,15 +340,14 @@
 	sliptype = 2
 
 	examine(mob/user)
-		 return span_notice(desc)
-
+		return span_notice(desc)
 
 /obj/item/paper/inqslip/arrival
 	name = "arrival slip"
 	desc = "A writ of arrival, printed on Otavan parchment: one signed not in ink, but blood. Intended for one person and one person only. Press the slip against one's own weeping wounds in order to obtain a fitting signature. Once done, it is ready to be mailed back to Otava."
 
 	examine(mob/user)
-		 return span_notice(desc)
+		return span_notice(desc)
 
 /obj/item/paper/inqslip/arrival/ortho
 	marquevalue = 4
