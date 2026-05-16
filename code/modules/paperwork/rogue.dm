@@ -235,11 +235,8 @@
 	return ..()
 
 /obj/item/paper/scroll/cargo/examine(mob/user)
-	. = ..()
-//	if(signedname)
-//		. += "It was signed by [signedname] the [signedjob]."
-
-	//for each order, add up total price and display orders
+	. = ..() // Ensure proper inheritance
+	return span_notice(desc)
 
 /obj/item/paper/scroll/cargo/update_icon_state()
 	if(open)
