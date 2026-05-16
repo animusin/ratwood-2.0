@@ -8,7 +8,7 @@
 	Tied to no singular god they seem to be the planet’s immune system come to life, yet in the cursed loam of the vale there has been a unique result at times.. \
 	When an ooze consumes a corpse fresh, mummified, or skeletal, they retain the memories and skills of the fallen adventurers or commoners that litter the ruins. \
 	Taking on new life, they adopt the mannerisms of this formative meal even if they can realize and mentally separate from their template, although many think of themselves as these dead peoples, insisting this is but a second chance at life..<br>\
-	(+1 CON | + WIL | -1 INT) <br>\
+	(+1 CON | +1 WIL | -1 INT) <br>\
 	Easy Dismember | Limb Regrowth | No Bones | No Blood</b></span><br><br>"
 
 
