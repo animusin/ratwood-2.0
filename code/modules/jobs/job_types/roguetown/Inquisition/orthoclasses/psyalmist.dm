@@ -96,7 +96,7 @@
 				backr = /obj/item/rogue/instrument/viola
 			if("Vocal Talisman")
 				backr = /obj/item/rogue/instrument/vocals
-		var/weapons = list("Psydonic Whip", "Psydonic Rapier", "Blessed Psydonic Shortsword")
+		var/weapons = list("Psydonic Whip", "Psydonic Rapier")
 		var/weapon_choice = tgui_input_list(H, "Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.", weapons)
 		switch(weapon_choice)
 			if("Psydonic Whip")
@@ -104,10 +104,6 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 4, TRUE)
 			if("Psydonic Rapier")
 				H.put_in_hands(new /obj/item/rogueweapon/sword/rapier/psy(H), TRUE)
-				H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword, SLOT_BELT_L, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
-			if("Blessed Psydonic Shortsword")
-				H.put_in_hands(new /obj/item/rogueweapon/sword/short/psy/preblessed(H), TRUE)
 				H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword, SLOT_BELT_L, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
 
