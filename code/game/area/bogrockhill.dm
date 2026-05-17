@@ -140,4 +140,4 @@
 	droning_sound = 'sound/music/area/bog.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
-	converted_type = /area/rogue/indoors/shelter/bograt
+	converted_type = /area/rogue/indoors/shelter/bog
