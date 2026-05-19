@@ -1,4 +1,4 @@
-/obj/item/sharpener
+/* /obj/item/sharpener
 	name = "whetstone"
 	icon = 'icons/obj/kitchen.dmi'
 	icon_state = "sharpener"
@@ -54,3 +54,4 @@
 	max = 200
 	prefix = "super-sharpened"
 	requires_sharpness = 0
+ */

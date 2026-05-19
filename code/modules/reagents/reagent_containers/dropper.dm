@@ -1,4 +1,4 @@
-/obj/item/reagent_containers/dropper
+/* /obj/item/reagent_containers/dropper
 	name = "dropper"
 	desc = ""
 	icon = 'icons/obj/chemical.dmi'
@@ -85,3 +85,4 @@
 		filling.color = mix_color_from_reagents(reagents.reagent_list)
 		add_overlay(filling)
 	. = ..(TRUE)
+ */

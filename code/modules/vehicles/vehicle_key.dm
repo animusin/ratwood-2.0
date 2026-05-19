@@ -1,4 +1,4 @@
-/obj/item/key
+/* /obj/item/key
 	name = "key"
 	desc = ""
 	icon_state = "key"
@@ -12,3 +12,4 @@
 	desc = ""
 	icon_state = "keyjanitor"
 
+ */

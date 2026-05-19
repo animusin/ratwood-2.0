@@ -1,4 +1,4 @@
-/obj/item/reagent_containers/pill/patch
+/* /obj/item/reagent_containers/pill/patch
 	name = "chemical patch"
 	desc = ""
 	icon = 'icons/obj/chemical.dmi'
@@ -26,3 +26,4 @@
 	if(!iscarbon(eater))
 		return 0
 	return 1 // Masks were stopping people from "eating" patches. Thanks, inheritance.
+ */

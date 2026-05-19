@@ -1,4 +1,4 @@
-/obj/item/reagent_containers/pill
+/* /obj/item/reagent_containers/pill
 	name = "pill"
 	desc = ""
 	icon = 'icons/obj/chemical.dmi'
@@ -132,3 +132,4 @@
 	icon_state = "pill9"
 	list_reagents = list(/datum/reagent/iron = 30)
 	rename_with_volume = TRUE
+ */

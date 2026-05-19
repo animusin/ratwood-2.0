@@ -1,4 +1,4 @@
-//CONTAINS: Detective's Scanner
+/* //CONTAINS: Detective's Scanner
 
 // TODO: Split everything into easy to manage procs.
 
@@ -214,3 +214,4 @@
 	to_chat(user, span_notice("<B>Scanner Report</B>"))
 	for(var/iterLog in log)
 		to_chat(user, iterLog)
+ */

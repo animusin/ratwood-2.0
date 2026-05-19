@@ -1,4 +1,4 @@
-//CREATOR'S NOTE: DO NOT FUCKING GIVE THIS TO BOTANY!
+/* //CREATOR'S NOTE: DO NOT FUCKING GIVE THIS TO BOTANY!
 /obj/item/hot_potato
 	name = "hot potato"
 	desc = ""
@@ -171,3 +171,4 @@
 	sticky = FALSE
 	reusable = TRUE
 	forceful_attachment = FALSE
+ */
