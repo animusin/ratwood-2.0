@@ -191,6 +191,10 @@
 /obj/structure/fluff/traveltile/inq
 	required_trait = TRAIT_INQUISITION
 /obj/structure/fluff/traveltile/lich
+	desc = "forboding, warping magick. Where could it possibly lead? Somewhere terrible, you must assume..."
+	color = "#fcff5e"
+	icon = 'icons/roguetown/misc/structure.dmi'
+	icon_state = "shitportal"
 	required_trait = TRAIT_LICHLAIR
 
 /obj/structure/fluff/traveltile/dungeon
