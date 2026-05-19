@@ -1,4 +1,4 @@
-/obj/random/loot
+/* /obj/random/loot
 	var/loot_table
 
 /obj/random/loot/Initialize(mapload)
@@ -26,3 +26,4 @@
 		/obj/item/clothing/under/roguetown/platelegs = 75,
 		/obj/item/clothing/head/roguetown/helmet/bascinet = 100
 		)
+ */
