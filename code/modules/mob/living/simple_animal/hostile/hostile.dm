@@ -231,9 +231,9 @@ GLOBAL_VAR_INIT(hostile_ai_canattack_newplayer_rejects, 0)
 /mob/living/simple_animal/hostile/proc/ListTargets() //Step 1, find out what we can see
 	GLOB.hostile_ai_listtargets_calls++
 	if(search_objects)
-		. = view(vision_range, targets_from)
+		. = view(vision_range, targets_from) // todo: does this need to be dview to ensure they have darkvision like with hearers()?
 	else
-		. = viewers(vision_range, targets_from) // todo: check if this should be changed back to hearers() like it was before
+		. = hearers(vision_range, targets_from) // hearers so they have darkvision. todo: make this controllable via a var
 		// if you want to make certain non-mobs get targeted, PLEASE make a spatial grid channel for it
 		// do not add any kind of range() or view() or typecache or etc checking here, that is ludicrously expensive
 	. -= src
