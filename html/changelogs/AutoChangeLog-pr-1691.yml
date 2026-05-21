@@ -1,0 +1,7 @@
+author: "ophaq"
+delete-after: True
+changes:
+  - bugfix: "Fixes the fancy sandals in the loadout to give the actual fancy sandals item (not the gladiator ones) and not the regular sandals."
+  - rscadd: "Adds half-hare &  half-rabbit to half-kin race titles."
+  - rscadd: "Adds harevolk and cabbitvolk for critterkin's titles."
+  - rscadd: "Adds hare-kin and cabbit-kin for wildkin."
