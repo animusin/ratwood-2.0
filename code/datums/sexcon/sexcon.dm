@@ -656,14 +656,13 @@
 	return get_max_loads() * CHARGE_FOR_CLIMAX
 
 /datum/sex_controller/proc/after_ejaculation()
+	set_arousal(40)
+	adjust_charge(-CHARGE_FOR_CLIMAX)
 	if(user.has_flaw(/datum/charflaw/addiction/lovefiend))
-		adjust_arousal(-15)
 		user.sate_addiction(/datum/charflaw/addiction/lovefiend)
-	else(set_arousal(40))
 	user.add_stress(/datum/stressevent/cumok)
 	user.emote("sexmoanhvy", forced = TRUE)
 	user.playsound_local(user, 'sound/misc/mat/end.ogg', 100)
-	adjust_charge(-CHARGE_FOR_CLIMAX)
 	last_ejaculation_time = world.time
 	record_round_statistic(STATS_PLEASURES)
 
