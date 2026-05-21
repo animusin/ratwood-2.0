@@ -437,24 +437,26 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	if(!T)
 		return
 
-	var/list/cake_types = list()
-	for(var/obj/item/reagent_containers/food/snacks/rogue/cake_item in typesof(/obj/item/reagent_containers/food/snacks/rogue))
-		var/slice_type = initial(cake_item.slice_path)
-		if(!ispath(slice_type, /obj/item/reagent_containers/food/snacks/rogue))
-			continue
-		if(!findtext("[slice_type]", "cakeslice"))
-			continue
-		if(findtext("[slice_type]", "/poison"))
-			continue
-		if(slice_type in cake_types)
-			continue
-		cake_types += slice_type
-
-	if(!length(cake_types))
-		cake_types = list(
-			/obj/item/reagent_containers/food/snacks/rogue/cakeslice,
-			/obj/item/reagent_containers/food/snacks/rogue/frostedcakeslice,
-		)
+	var/list/cake_types = list(
+		/obj/item/reagent_containers/food/snacks/rogue/cakeslice,
+		/obj/item/reagent_containers/food/snacks/rogue/frostedcakeslice,
+		/obj/item/reagent_containers/food/snacks/rogue/applecakeslice,
+		/obj/item/reagent_containers/food/snacks/rogue/applenutcakeslice,
+		/obj/item/reagent_containers/food/snacks/rogue/berrycakeslice,
+		/obj/item/reagent_containers/food/snacks/rogue/blackberrycakeslice,
+		/obj/item/reagent_containers/food/snacks/rogue/carrotcakeslice,
+		/obj/item/reagent_containers/food/snacks/rogue/lemoncakeslice,
+		/obj/item/reagent_containers/food/snacks/rogue/limecakeslice,
+		/obj/item/reagent_containers/food/snacks/rogue/manacakeslice,
+		/obj/item/reagent_containers/food/snacks/rogue/menthacakeslice,
+		/obj/item/reagent_containers/food/snacks/rogue/peacecakeslice,
+		/obj/item/reagent_containers/food/snacks/rogue/raspberrycakeslice,
+		/obj/item/reagent_containers/food/snacks/rogue/rocknutcakeslice,
+		/obj/item/reagent_containers/food/snacks/rogue/strawberrycakeslice,
+		/obj/item/reagent_containers/food/snacks/rogue/tangerinecakeslice,
+		/obj/item/reagent_containers/food/snacks/rogue/hcakeslice,
+		/obj/item/reagent_containers/food/snacks/rogue/ccakeslice,
+	)
 	var/cake_type = pick(cake_types)
 	new cake_type(T)
 
