@@ -239,16 +239,3 @@ tools/MapAtmosFixer/MapAtmosFixer/bin/*
 !/config/title_screens/images/exclude
 
 *.test.dme
-code/game/objects/items/rogueitems/keyrings.dm
-code/game/objects/items/rogueitems/seals.dm
-code/modules/jobs/job_types/roguetown/church/priest.dm
-code/modules/jobs/job_types/roguetown/courtier/councillor.dm
-code/modules/jobs/job_types/roguetown/garrison/wardenmaster.dm
-code/modules/jobs/job_types/roguetown/nobility/captain.dm
-code/modules/jobs/job_types/roguetown/nobility/hand.dm
-code/modules/jobs/job_types/roguetown/nobility/steward.dm
-code/modules/jobs/job_types/roguetown/yeomen/guildmaster.dm
-code/modules/jobs/job_types/roguetown/yeomen/merchant.dm
-code/modules/jobs/job_types/roguetown/yeomen/nightmaster.dm
-code/modules/paperwork/paper.dm
-modular/code/game/objects/items/rogueitems/keyrings.dm

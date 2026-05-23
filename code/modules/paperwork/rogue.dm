@@ -241,8 +241,8 @@
 	return ..()
 
 /obj/item/paper/scroll/cargo/examine(mob/user)
-	. = ..() // Ensure proper inheritance
-	return span_notice(desc)
+	. = ..()
+	. += span_notice(desc)
 
 /obj/item/paper/scroll/cargo/update_icon_state()
 	if(open)
@@ -355,7 +355,8 @@
 			to_chat(user, span_notice("This writ has not yet been signed."))
 
 /obj/item/paper/inqslip/examine(mob/user)
-	return span_notice(desc)
+	. = ..()
+	. += span_notice(desc)
 
 /obj/item/paper/inqslip/proc/attemptsign(mob/user, mob/living/carbon/human/M)
 	if(sliptype == 2)

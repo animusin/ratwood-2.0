@@ -4,9 +4,8 @@
  * @license MIT
  */
 
-import React from 'react';
 import { Pane } from 'tgui/layouts';
-import { Box, Button, Section, Stack } from 'tgui-core/components';
+import { Button, Section, Stack } from 'tgui-core/components';
 
 import { NowPlayingWidget, useAudio } from './audio';
 import { ChatPanel, ChatTabs } from './chat';
@@ -20,7 +19,6 @@ export const Panel = (props) => {
   const audio = useAudio();
   const settings = useSettings();
   const game = useGame();
-  // const [showFormattingHelp, setShowFormattingHelp] = React.useState(false);
   if (process.env.NODE_ENV !== 'production') {
     const { useDebug, KitchenSink } = require('tgui/debug');
     const debug = useDebug();
@@ -28,27 +26,6 @@ export const Panel = (props) => {
       return <KitchenSink panel />;
     }
   }
-
-  // Formatting help content
-  const formattingHelp = (
-    <Box p={2}>
-      <h2>Formatting Help</h2>
-      <ul>
-        <li><b>**bold**</b> → <b>bold</b></li>
-        <li><i>*italics*</i> → <i>italics</i></li>
-        <li><span style={{ fontFamily: 'monospace' }}># Header</span> → <b>Header</b></li>
-        <li><span style={{ fontFamily: 'monospace' }}>((small))</span> → <span style={{ fontSize: 'smaller' }}>small</span></li>
-        <li><span style={{ fontFamily: 'monospace' }}>&lt;color=862F20&gt;text&lt;/color&gt;</span> → <span style={{ color: '#862F20' }}>text</span></li>
-        <li><span style={{ fontFamily: 'monospace' }}>* Bullet</span> → • Bullet</li>
-        <li><span style={{ fontFamily: 'monospace' }}>&lt;br&gt;</span> → line break</li>
-        <li><span style={{ fontFamily: 'monospace' }}>&lt;b&gt;text&lt;/b&gt;</span> → <b>text</b></li>
-        <li><span style={{ fontFamily: 'monospace' }}>&lt;i&gt;text&lt;/i&gt;</span> → <i>text</i></li>
-      </ul>
-      <Button color="average" onClick={() => setShowFormattingHelp(false)}>
-        Close
-      </Button>
-    </Box>
-  );
 
   return (
     <Pane theme="dark">
@@ -59,7 +36,6 @@ export const Panel = (props) => {
               <Stack.Item grow overflowX="auto">
                 <ChatTabs />
               </Stack.Item>
-              {/* Formatting Help button removed */}
               <Stack.Item>
                 <PingIndicator />
               </Stack.Item>
@@ -87,7 +63,6 @@ export const Panel = (props) => {
             </Stack>
           </Section>
         </Stack.Item>
-        {/* Formatting Help modal removed */}
         {audio.visible && (
           <Stack.Item fontSize={1.2}>
             <Section>

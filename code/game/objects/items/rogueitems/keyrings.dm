@@ -61,15 +61,8 @@
 	else
 		desc = ""
 
-/obj/item/storage/keyring/proc/is_valid_item(obj/item/I)
-	// Only keys and seals are allowed on keyrings
-	return istype(I, /obj/item/roguekey) || istype(I, /obj/item/seal)
-
 /obj/item/storage/keyring/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
 	. = ..()
-	// Reject items that aren't keys or seals
-	if(istype(arrived, /obj/item) && !is_valid_item(arrived))
-		return
 	playsound(src, "sound/items/gems (1).ogg", 100, FALSE)
 	update_desc()
 
