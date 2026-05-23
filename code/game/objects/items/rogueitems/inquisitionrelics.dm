@@ -739,10 +739,9 @@ Inquisitorial armory down here
 	. = ..()
 	if(istype(I, /obj/item/reagent_containers/food/snacks/tallow))
 		if(!loaded_tallow)
-			var/obj/item/reagent_containers/food/snacks/tallow/Q = I
-			if(user.transferItemToLoc(Q, src, TRUE))
-				loaded_tallow = Q
-				loaded_inquisitorial_tallow = istype(Q, /obj/item/reagent_containers/food/snacks/tallow/red)
+			if(user.transferItemToLoc(I, src, TRUE))
+				loaded_tallow = I
+				loaded_inquisitorial_tallow = istype(I, /obj/item/reagent_containers/food/snacks/tallow/red)
 				remaining = 300
 				update_icon()
 		else
