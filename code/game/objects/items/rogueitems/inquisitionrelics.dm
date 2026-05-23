@@ -737,12 +737,12 @@ Inquisitorial armory down here
 
 /obj/item/inqarticles/tallowpot/attacked_by(obj/item/I, mob/living/user)
 	. = ..()
-	if(istype(I, /obj/item/reagent_containers/food/snacks/tallow/soft) || istype(I, /obj/item/reagent_containers/food/snacks/tallow/red))
+	if(istype(I, /obj/item/reagent_containers/food/snacks/tallow))
 		if(!loaded_tallow)
 			var/obj/item/reagent_containers/food/snacks/tallow/Q = I
 			if(user.transferItemToLoc(Q, src, TRUE))
 				loaded_tallow = Q
-				loaded_inquisitorial_tallow = istype(I, /obj/item/reagent_containers/food/snacks/tallow/red)
+				loaded_inquisitorial_tallow = istype(Q, /obj/item/reagent_containers/food/snacks/tallow/red)
 				remaining = 300
 				update_icon()
 		else
@@ -780,8 +780,10 @@ Inquisitorial armory down here
 		return
 	if(loaded_inquisitorial_tallow)
 		. += span_info("It currently contains Inquisitorial Tallow.")
-	else
+	else if(istype(loaded_tallow, /obj/item/reagent_containers/food/snacks/tallow/soft))
 		. += span_info("It currently contains soft tallow.")
+	else
+		. += span_info("It currently contains tallow.")
 	if(heatedup)
 		. += span_notice("The tallow is melted and ready for stamping.")
 	else
