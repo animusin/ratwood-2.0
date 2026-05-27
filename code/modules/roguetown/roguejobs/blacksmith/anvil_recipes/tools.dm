@@ -155,7 +155,7 @@
 
 /datum/anvil_recipe/tools/decrepit/bowl
 	name = "Bowl, Decrepit (x2)"
-	created_item = /obj/item/reagent_containers/glass/bowl/aalloy
+	created_item = /obj/item/reagent_containers/glass/bowl/decrepit
 
 /datum/anvil_recipe/tools/decrepit/fork
 	name = "Fork, Decrepit (x3)"
@@ -429,9 +429,9 @@
 	created_item = /obj/item/kitchen/fork/gold
 	createditem_num = 3
 
-/datum/anvil_recipe/tools/aalloy/fork
+/datum/anvil_recipe/tools/decrepit/fork
 	name = "Fork, decrepit (x3)"
-	created_item = /obj/item/kitchen/fork/aalloy
+	created_item = /obj/item/kitchen/fork/decrepit
 	createditem_num = 3
 
 /datum/anvil_recipe/tools/iron/bowl
