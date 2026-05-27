@@ -124,11 +124,11 @@
 
 //Returns null if there is any bad text in the string
 /proc/reject_bad_text(text, max_length=512)
-	if(length(text) > max_length)
+	if(length_char(text) > max_length)
 		return			//message too long
 	var/non_whitespace = 0
-	for(var/i=1, i<=length(text), i++)
-		switch(text2ascii(text,i))
+	for(var/i=1, i<=length_char(text), i++)
+		switch(text2ascii_char(text,i))
 			if(62,60,92,47)
 				return			//rejects the text if it contains these bad characters: <, >, \ or /
 			if(127 to 255)
@@ -161,15 +161,15 @@
 
 //Filters out undesirable characters from names
 /proc/reject_bad_name(t_in, allow_numbers=0, max_length=MAX_NAME_LEN)
-	if(!t_in || length(t_in) > max_length)
+	if(!t_in || length_char(t_in) > max_length)
 		return //Rejects the input if it is null or if it is longer then the max length allowed
 
 	var/number_of_alphanumeric	= 0
 	var/last_char_group			= 0
 	var/t_out = ""
 
-	for(var/i=1, i<=length(t_in), i++)
-		var/ascii_char = text2ascii(t_in,i)
+	for(var/i=1, i<=length_char(t_in), i++)
+		var/ascii_char = text2ascii_char(t_in,i)
 		switch(ascii_char)
 			// A  .. Z
 			if(65 to 90)
@@ -184,7 +184,7 @@
 				last_char_group = 4
 
 			// special accented characters (diacritical)
-			if(192 to 383)
+			if(192 to 383, 1025, 1040 to 1103, 1105)
 				t_out+= ascii2text(ascii_char)
 				number_of_alphanumeric++
 				last_char_group = 4
@@ -223,7 +223,7 @@
 		return		//protects against tiny names like "A" and also names like "' ' ' ' ' ' ' '"
 
 	if(last_char_group == 1)
-		t_out = copytext(t_out,1,length(t_out))	//removes the last character (in this case a space)
+		t_out = copytext_char(t_out,1,length_char(t_out))	//removes the last character (in this case a space)
 
 	return t_out
 
@@ -392,7 +392,7 @@
 
 GLOBAL_LIST_INIT(zero_character_only, list("0"))
 GLOBAL_LIST_INIT(hex_characters, list("0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"))
-GLOBAL_LIST_INIT(alphabet, list("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"))
+GLOBAL_LIST_INIT(alphabet, list("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","а","б","в","г","д","е","ё","ж","з","и","й","к","л","м","н","о","п","р","с","т","у","ф","х","ц","ч","ш","щ","ъ","ы","ь","э","ю","я"))
 GLOBAL_LIST_INIT(binary, list("0","1"))
 /proc/random_string(length, list/characters)
 	. = ""
