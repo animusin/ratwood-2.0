@@ -52,17 +52,19 @@
 				shown_patreon_level = "Lord"
 		to_chat(src, span_info("Donator Level: [shown_patreon_level]"))
 
-	var/primary_server = "byond://ratwood.rip:22096"
-	var/secondary_server = "byond://ratwood.rip:22099"
+	var/server_address = CONFIG_GET(string/server)
+	var/primary_server = server_address ? "byond://[server_address]" : null
+	var/secondary_server = server_address ? "byond://[server_address]" : null
 	var/link_style = "color:#638500;text-decoration:underline;"
 
-	if(world.port == 22096)
-		to_chat(src, "<span style='color:#638500;'>Secondary Server: [secondary_server] <a href='?src=[REF(src)];join_server=secondary' style='[link_style]'><b>(JOIN)</b></a></span>")
-	else if(world.port == 22099)
-		to_chat(src, "<span style='color:#638500;'>Primary Server: [primary_server] <a href='?src=[REF(src)];join_server=primary' style='[link_style]'><b>(JOIN)</b></a></span>")
-	else
-		to_chat(src, "<span style='color:#638500;'>Primary Server: [primary_server] <a href='?src=[REF(src)];join_server=primary' style='[link_style]'><b>(JOIN)</b></a></span>")
-		to_chat(src, "<span style='color:#638500;'>Secondary Server: [secondary_server] <a href='?src=[REF(src)];join_server=secondary' style='[link_style]'><b>(JOIN)</b></a></span>")
+	if(server_address)
+		if(world.port == 22096)
+			to_chat(src, "<span style='color:#638500;'>Secondary Server: [secondary_server] <a href='?src=[REF(src)];join_server=secondary' style='[link_style]'><b>(JOIN)</b></a></span>")
+		else if(world.port == 22099)
+			to_chat(src, "<span style='color:#638500;'>Primary Server: [primary_server] <a href='?src=[REF(src)];join_server=primary' style='[link_style]'><b>(JOIN)</b></a></span>")
+		else
+			to_chat(src, "<span style='color:#638500;'>Primary Server: [primary_server] <a href='?src=[REF(src)];join_server=primary' style='[link_style]'><b>(JOIN)</b></a></span>")
+			to_chat(src, "<span style='color:#638500;'>Secondary Server: [secondary_server] <a href='?src=[REF(src)];join_server=secondary' style='[link_style]'><b>(JOIN)</b></a></span>")
 
 	to_chat(src, "<a href='?src=[REF(src)];open_changelog=1' style='color:#638500;text-decoration:underline;'><b>Open Changelog</b></a>")
 

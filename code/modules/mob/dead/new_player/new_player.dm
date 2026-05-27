@@ -143,12 +143,9 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 		return 1
 
 	if(href_list["join_server"])
-		var/target_server
-		switch(href_list["join_server"])
-			if("primary")
-				target_server = "byond://ratwood.rip:22096"
-			if("secondary")
-				target_server = "byond://ratwood.rip:22099"
+		var/target_server = CONFIG_GET(string/server)
+		if(target_server && !findtext(target_server, "byond://"))
+			target_server = "byond://[target_server]"
 
 		if(!target_server)
 			return 1
