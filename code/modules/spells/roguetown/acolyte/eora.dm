@@ -694,6 +694,18 @@
 	if(length(tree_offerings) < 3)
 		. += span_info("The tree yearns for an offering. Whispers enter your mind. A red crystal that shimmers... Something that sculpts one's form... A glittering seed...")
 
+	if(growth_stage == FRUITING && user.get_skill_level(/datum/skill/labor/farming) >= SKILL_LEVEL_JOURNEYMAN)
+		if(fruit_ready)
+			. += span_good("The fruit is ripe and ready to harvest.")
+		else if(fruit)
+			. += span_info("The fruit is almost ripe.")
+		else
+			var/effective_fruit_time = (fertilizer_happiness > 0) ? time_to_grow_fruit / 2 : time_to_grow_fruit
+			var/remaining_seconds = round(((growth_threshold - growth_progress) / (growth_threshold * 0.25)) * effective_fruit_time / 10)
+			var/minutes = round(remaining_seconds / 60)
+			var/secs = remaining_seconds % 60
+			. += span_info("My farming experience tells me the fruit will start to bear in roughly [minutes > 0 ? "[minutes] minute[minutes != 1 ? "s" : ""]" : ""][minutes > 0 && secs > 0 ? " and " : ""][secs > 0 ? "[secs] second[secs != 1 ? "s" : ""]" : ""].")
+
 /obj/structure/eoran_pomegranate_tree/proc/reset_care()
 	//The benefit of rare offerings are kept through harvests.
 	happiness = 0 + (10 * length(tree_offerings))
@@ -769,7 +781,8 @@
 	check_growth_stage()
 
 /obj/structure/eoran_pomegranate_tree/proc/apply_effects(mob/living/target)
-	target.apply_status_effect(/datum/status_effect/debuff/pomegranate_aura, src)
+	if(!HAS_TRAIT(target, TRAIT_EORAN_CALM))
+		target.apply_status_effect(/datum/status_effect/debuff/pomegranate_aura, src)
 
 /obj/structure/eoran_pomegranate_tree/proc/remove_effects(mob/living/target)
 	target.remove_status_effect(/datum/status_effect/debuff/pomegranate_aura)

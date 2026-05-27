@@ -7,6 +7,7 @@
 	sins = "Dispassion, Overindulgence, Sadism"
 	mob_traits = list(TRAIT_EMPATH, TRAIT_EXTEROCEPTION)
 	miracles = list(/obj/effect/proc_holder/spell/targeted/touch/orison			= CLERIC_ORI,
+					/obj/effect/proc_holder/spell/invoked/massage				= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/eora_blessing			= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/lesser_heal 			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/blood_heal			= CLERIC_T1,

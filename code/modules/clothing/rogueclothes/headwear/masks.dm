@@ -50,7 +50,7 @@
 		var/mob/living/carbon/C = user
 		if(src == C.head)
 			to_chat(user, "<span class='warning'>I need some time to remove the mask peacefully.</span>")
-			if(do_after(user, 50))
+			if(do_after(user, 20))
 				return ..()
 			return
 	return ..()
