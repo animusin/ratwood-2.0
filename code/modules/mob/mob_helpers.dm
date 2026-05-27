@@ -116,29 +116,40 @@
  * Makes you speak like you're drunk
  */
 /proc/slur(n)
-	var/phrase = STRIP_HTML_SIMPLE(n, MAX_MESSAGE_LEN)
+	var/phrase = html_decode(n)
 	var/leng = length_char(phrase)
-	var/counter=length_char(phrase)
-	var/newphrase=""
-	var/newletter=""
+	var/counter = leng
+	var/newphrase = ""
+	var/newletter = ""
 	while(counter>=1)
 		newletter=copytext_char(phrase,(leng-counter)+1,(leng-counter)+2)
 		if(rand(1,3)==3)
-			if(LOWER_TEXT(newletter)=="o")
-				newletter="u"
-			if(LOWER_TEXT(newletter)=="s")
-				newletter="ch"
-			if(LOWER_TEXT(newletter)=="a")
-				newletter="ah"
-			if(LOWER_TEXT(newletter)=="u")
-				newletter="oo"
-			if(LOWER_TEXT(newletter)=="c")
-				newletter="k"
+			switch(LOWER_TEXT(newletter))
+				if("o")
+					newletter = "u"
+				if("s")
+					newletter = "sh"
+				if("a")
+					newletter = "ah"
+				if("u")
+					newletter = "oo"
+				if("c")
+					newletter = "k"
+				if("о")
+					newletter = "у"
+				if("с")
+					newletter = "ш"
+				if("а")
+					newletter = "аа"
+				if("у")
+					newletter = "оо"
+				if("к")
+					newletter = "кк"
 		if(rand(1,20)==20)
 			if(newletter==" ")
-				newletter="...huuuhhh..."
+				newletter="...хууххх..."
 			if(newletter==".")
-				newletter=" *BURP*."
+				newletter=" *ИК*."
 		switch(rand(1,20))
 			if(1)
 				newletter+="'"
@@ -197,14 +208,15 @@
 
 ///Adds stuttering to the message passed in
 /proc/stutter(n)
-	var/te = STRIP_HTML_SIMPLE(n,MAX_MESSAGE_LEN)
+	var/te = html_decode(n)
 	var/t = ""//placed before the message. Not really sure what it's for.
-	n = length_char(n)//length_char of the entire word
-	var/p = null
-	p = 1//1 is the start of any word
-	while(p <= n)//while P, which starts at 1 is less or equal to N which is the length_char.
+	var/length_n = length_char(te)//length_char of the entire word
+	var/p = 1//1 is the start of any word
+	var/list/consonants = list("b","c","d","f","g","h","j","k","l","m","n","p","q","r","s","t","v","w","x","y","z",
+		"б","в","г","д","ж","з","й","к","л","м","н","п","р","с","т","ф","х","ц","ч","ш","щ")
+	while(p <= length_n)//while P, which starts at 1 is less or equal to N which is the length_char.
 		var/n_letter = copytext_char(te, p, p + 1)//copies text from a certain distance. In this case, only one letter at a time.
-		if (prob(80) && (ckey(n_letter) in list("b","c","d","f","g","h","j","k","l","m","n","p","q","r","s","t","v","w","x","y","z")))
+		if (prob(80) && (LOWER_TEXT(n_letter) in consonants))
 			if (prob(10))
 				n_letter = text("[n_letter]-[n_letter]-[n_letter]-[n_letter]")//replaces the current letter with this instead.
 			else
@@ -217,7 +229,7 @@
 						n_letter = text("[n_letter]-[n_letter]")
 		t = text("[t][n_letter]")//since the above is ran through for each letter, the text just adds up back to the original word.
 		p++//for each letter p is increased to find where the next letter will be.
-	return copytext_char(t,1,MAX_MESSAGE_LEN)
+	return copytext_char(sanitize(t),1,MAX_MESSAGE_LEN)
 
 ///Convert a message to derpy speak
 /proc/derpspeech(message, stuttering)

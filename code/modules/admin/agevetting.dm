@@ -7,7 +7,13 @@ GLOBAL_LIST_INIT(agevetted_list, load_agevets_from_file())
 GLOBAL_PROTECT(agevetted_list)
 
 /client/proc/check_agevet()
-	if(LAZYACCESS(GLOB.agevetted_list, ckey) || holder)
+	if(LAZYACCESS(GLOB.agevetted_list, ckey))
+		return TRUE
+	if(check_whitelist(ckey))
+		if(!LAZYACCESS(GLOB.agevetted_list, ckey))
+			add_agevet(ckey, "SYSTEM", src)
+		return TRUE
+	if(holder)
 		return TRUE
 	return FALSE
 
@@ -15,6 +21,10 @@ GLOBAL_PROTECT(agevetted_list)
 	if(client)
 		return client.check_agevet()
 	if(LAZYACCESS(GLOB.agevetted_list, ckey) || copytext(key,1,2)=="@") //aghosted people stay verified
+		return TRUE
+	if(check_whitelist(ckey))
+		if(!LAZYACCESS(GLOB.agevetted_list, ckey))
+			add_agevet(ckey, "SYSTEM")
 		return TRUE
 	return FALSE
 
@@ -34,7 +44,7 @@ GLOBAL_PROTECT(agevetted_list)
 	if(!target_ckey || (target_ckey in GLOB.agevetted_list))
 		return
 
-	if(IsAdminAdvancedProcCall())
+	if(admin_ckey != "SYSTEM" && IsAdminAdvancedProcCall())
 		return
 
 	if(LAZYACCESS(GLOB.agevetted_list, target_ckey))
@@ -43,6 +53,7 @@ GLOBAL_PROTECT(agevetted_list)
 
 	target_ckey = ckey(target_ckey)
 	GLOB.agevetted_list[target_ckey] = admin_ckey
+	adjust_playerquality(10, target_ckey, admin_ckey, "Age verification bonus")
 	message_admins("ID VETTING: Added [target_ckey] to the agevetted list[admin_ckey? " by [admin_ckey]":""]")
 	log_admin("ID VETTING: Added [target_ckey] to the agevetted list[admin_ckey? " by [admin_ckey]":""]")
 	save_agevets_to_file()
@@ -69,7 +80,7 @@ GLOBAL_PROTECT(agevetted_list)
 	fdel(json_file)
 	WRITE_FILE(json_file,json_encode(file_data))
 
-// for more convenient host oversight and perhaps an eventual database import. 
+// for more convenient host oversight and perhaps an eventual database import.
 /proc/log_agevet_to_csv(target_ckey, admin_ckey = "SYSTEM")
 	if(IsAdminAdvancedProcCall()) // sorry for using this twice
 		return

@@ -217,14 +217,15 @@ SUBSYSTEM_DEF(ticker)
 				tipped = TRUE
 
 			if(timeLeft <= 0)
-				if(!checkreqroles())
-					current_state = GAME_STATE_STARTUP
-					start_at = world.time + 600
+				if(!checkreqroles() || totalPlayersReady < 1)
+					current_state = GAME_STATE_PREGAME
+					start_at = world.time + 6000
 					timeLeft = null
-					Master.SetRunLevel(RUNLEVEL_LOBBY)
+					fire()
 				else
 					current_state = GAME_STATE_SETTING_UP
 					Master.SetRunLevel(RUNLEVEL_SETUP)
+					job_change_locked = TRUE
 					if(start_immediately)
 						fire()
 
@@ -305,7 +306,7 @@ SUBSYSTEM_DEF(ticker)
 				player.playsound_local(player, 'sound/music/wartitle.ogg', 100, TRUE)
 		return FALSE
 	*/
-	job_change_locked = TRUE
+	//job_change_locked = TRUE
 	return TRUE
 
 /datum/controller/subsystem/ticker
