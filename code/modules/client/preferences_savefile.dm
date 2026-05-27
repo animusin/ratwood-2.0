@@ -342,6 +342,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	pda_style		= sanitize_inlist(pda_style, GLOB.pda_styles, initial(pda_style))
 	pda_color		= sanitize_hexcolor(pda_color, 6, 1, initial(pda_color))
 	key_bindings 	= sanitize_islist(key_bindings, list())
+	if(!isnum(combatmusicvol))
+		combatmusicvol = musicvol
+	combatmusicvol = sanitize_integer(combatmusicvol, 0, 100, initial(combatmusicvol))
 	hide_unavailable_emotes = sanitize_integer(hide_unavailable_emotes, 0, 1, initial(hide_unavailable_emotes))
 
 	//ROGUETOWN

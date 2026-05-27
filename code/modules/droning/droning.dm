@@ -7,7 +7,12 @@ SUBSYSTEM_DEF(droning)
 	if(!listener?.prefs)
 		return 50
 	if(channel == CHANNEL_BUZZ || channel == CHANNEL_CMUSIC1 || channel == CHANNEL_CMUSIC2 || channel == CHANNEL_CMUSIC3 || channel == CHANNEL_CMUSIC4)
-		return listener.prefs.combatmusicvol
+		var/combat_volume = listener.prefs.combatmusicvol
+		if(!isnum(combat_volume))
+			combat_volume = listener.prefs.musicvol
+		if(!isnum(combat_volume))
+			combat_volume = initial(listener.prefs.combatmusicvol)
+		return clamp(combat_volume, 0, 100)
 	if(channel == CHANNEL_AMBIENCE || channel == CHANNEL_RAIN)
 		return listener.prefs.ambiencevol
 	if(channel == CHANNEL_MUSIC)
