@@ -45,7 +45,7 @@
 
 /datum/anvil_recipe/weapons/psy
 	abstract_type = /datum/anvil_recipe/weapons/psy
-	req_bar = /obj/item/ingot/silverblessed/bullion
+	req_bar = /obj/item/ingot/silverblessed
 	craftdiff = SKILL_LEVEL_MASTER
 
 /datum/anvil_recipe/weapons/holysteel
@@ -357,7 +357,6 @@
 	req_blade = /obj/item/blade/iron_mace
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/mace/warhammer
-	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/iron/spear
 	name = "Spear, Iron (+1 Small Log)"
@@ -400,7 +399,6 @@
 	name = "Handclaws, Iron (+1 Iron)"
 	additional_items = list(/obj/item/ingot/iron)
 	created_item = /obj/item/rogueweapon/handclaw
-	craftdiff = 2
 
 /datum/anvil_recipe/weapons/iron/maul
 	name = "Maul (+1 Iron)"
@@ -490,14 +488,12 @@
 	req_blade = /obj/item/blade/steel_sword
 	additional_items = list(/obj/item/ingot/steel)
 	created_item = /obj/item/rogueweapon/sword/long/training
-	craftdiff = 3
 
 /datum/anvil_recipe/weapons/steel/trainingsword
 	name = "Training Sword, Steel (+1 Steel)"
 	req_blade = /obj/item/blade/steel_sword
 	additional_items = list(/obj/item/ingot/steel)
 	created_item = /obj/item/rogueweapon/sword/long/training
-	craftdiff = 3
 
 /datum/anvil_recipe/weapons/steel/kriegmesser
 	name = "Kriegmesser, Steel (+1 Steel)"
@@ -528,7 +524,6 @@
 	req_blade = /obj/item/blade/steel_mace
 	additional_items = list(/obj/item/ingot/steel)
 	created_item = /obj/item/rogueweapon/mace/warhammer/steel
-	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/steel/greatsword
 	name = "Greatsword, Steel (+2 Steel)"
@@ -553,13 +548,11 @@
 	req_blade = /obj/item/blade/steel_axe
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/stoneaxe/woodcut/steel
-	craftdiff = 2
 
-/datum/anvil_recipe/weapons/steel/pulaski //returned and balanced with craftdiff added
+/datum/anvil_recipe/weapons/steel/pulaski
 	name = "Pulaski axe (+1 Stick)"
 	additional_items = list(/obj/item/grown/log/tree/stick)
 	created_item = /obj/item/rogueweapon/stoneaxe/woodcut/pick
-	craftdiff = 2
 
 /datum/anvil_recipe/weapons/steel/greataxe
 	name = "Greataxe, Steel (+1 Steel, +1 Small Log)"
@@ -655,7 +648,6 @@
 	name = "Handclaws, Steel (+1 Steel)"
 	additional_items = list(/obj/item/ingot/steel)
 	created_item = /obj/item/rogueweapon/handclaw/steel
-	craftdiff = 3
 
 /datum/anvil_recipe/weapons/steel/maul
 	name = "Grand Maul (+2 Steel)"
@@ -781,7 +773,7 @@
 	createditem_num = 2
 
 
-/datum/anvil_recipe/weapons/gladius
+/datum/anvil_recipe/weapons/bronze/gladius
 	name = "Gladius, Bronze"
 	created_item = /obj/item/rogueweapon/sword/short/gladius
 	craftdiff = 2
@@ -847,7 +839,6 @@
 	name = "Crossbow (+1 Small Log, +1 Fiber)"
 	additional_items = list(/obj/item/grown/log/tree/small, /obj/item/natural/fibers)
 	created_item = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-	craftdiff = 2
 
 /datum/anvil_recipe/weapons/iron/bolts
 	name = "Crossbow Bolts (+2 Stick) (x10)"
@@ -855,7 +846,6 @@
 	created_item = /obj/item/ammo_casing/caseless/rogue/bolt
 	createditem_num = 10
 	i_type = "Ammo"
-	craftdiff = 1
 
 /datum/anvil_recipe/weapons/ancient/bolts
 	name = "Bolts, Ancient (+2 Stick) (x10)"
@@ -863,7 +853,6 @@
 	created_item = /obj/item/ammo_casing/caseless/rogue/bolt/ancient
 	createditem_num = 10
 	i_type = "Ammo"
-	craftdiff = 1
 
 /datum/anvil_recipe/weapons/decrepit/bolts
 	name = "Bolts, Decrepit (+2 Stick) (x10)"
@@ -871,19 +860,19 @@
 	created_item = /obj/item/ammo_casing/caseless/rogue/bolt/decrepit
 	createditem_num = 10
 	i_type = "Ammo"
-	craftdiff = 1
 
 /datum/anvil_recipe/weapons/iron/bluntbolts
-	name = "Bolts, Blunt (+2 Stick) (x10)"
+	name = "Bolts, Training (+2 Stick) (x20)"
 	additional_items = list(/obj/item/grown/log/tree/stick, /obj/item/grown/log/tree/stick)
 	created_item = /obj/item/ammo_casing/caseless/rogue/bolt/blunt
 	createditem_num = 10
 	i_type = "Ammo"
+	craftdiff = 1
 
-/datum/anvil_recipe/weapons/iron/bluntbolts
-	name = "Bolts, Blunt (+2 Stick) (x10)"
+/datum/anvil_recipe/weapons/iron/heavybluntbolts
+	name = "Bolts, Heavy Blunt (+2 Stick) (x10)"
 	additional_items = list(/obj/item/grown/log/tree/stick, /obj/item/grown/log/tree/stick)
-	created_item = /obj/item/ammo_casing/caseless/rogue/bolt/blunt
+	created_item = /obj/item/ammo_casing/caseless/rogue/bolt/heavyblunt
 	createditem_num = 10
 	i_type = "Ammo"
 
@@ -945,11 +934,10 @@
 
 // UNIQUE
 
-/datum/anvil_recipe/valuables/iron/execution
+/datum/anvil_recipe/weapons/iron/execution
 	name = "Executioner's Sword (+2 Iron)"
 	additional_items = list(/obj/item/ingot/iron, /obj/item/ingot/iron)
 	created_item = /obj/item/rogueweapon/sword/long/exe
-	i_type = "Weapons"
 	craftdiff = 4
 
 
@@ -958,7 +946,6 @@
 /datum/anvil_recipe/weapons/blacksteel/arming
 	name = "Blacksteel Arming Sword"
 	created_item = /obj/item/rogueweapon/sword/blacksteel
-	craftdiff = 5
 
 /datum/anvil_recipe/weapons/blacksteel/flamberge
 	name = "Blacksteel Flamberge (+1 Blacksteel, +1 Ruby)"
@@ -970,7 +957,6 @@
 	name = "Blacksteel Sword, Decorated (+1 Steel Sword)"
 	additional_items = list(/obj/item/rogueweapon/sword)
 	created_item = /obj/item/rogueweapon/sword/decorated/blacksteel
-	craftdiff = 5
 
 //Church Weapons forged from Holy Steel
 
@@ -979,25 +965,21 @@
 /datum/anvil_recipe/weapons/holysteel/church_longsword
 	name = "Longsword, Templaric"
 	created_item = /obj/item/rogueweapon/sword/long/church
-	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/holysteel/church_spear
 	name = "Spear, Templaric (+1 Holy Steel)"
 	additional_items = list(/obj/item/ingot/steelholy)
 	created_item = /obj/item/rogueweapon/spear/holysee
-	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/holysteel/decasword
 	name = "Longsword, Decablessed (+1 Holy Steel)"
 	additional_items = list(/obj/item/ingot/steelholy)
 	created_item = /obj/item/rogueweapon/sword/long/undivided
-	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/holysteel/decashield
 	name = "Shield, Decablessed (+1 Holy Steel)"
 	additional_items = list(/obj/item/ingot/steelholy)
 	created_item = /obj/item/rogueweapon/shield/tower/holysee
-	i_type = "Weapons"
 
 // BLESSED SILVER
 
@@ -1005,146 +987,99 @@
 	name = "Psydonic War Axe (+1 Blessed Silver, +1 Stick)"
 	created_item = /obj/item/rogueweapon/stoneaxe/battle/psyaxe
 	additional_items = list(/obj/item/ingot/silverblessed, /obj/item/grown/log/tree/stick)
-	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/psy/poleaxe
 	name = "Psydonic Poleaxe (+2 Blessed Silver, +1 Small Log)"
 	additional_items = list(/obj/item/ingot/silverblessed, /obj/item/ingot/silverblessed, /obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/greataxe/psy
-	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/psy/mace
 	name = "Psydonic Grand Mace (+1 Blessed Silver, +1 Small Log)"
 	created_item = /obj/item/rogueweapon/mace/goden/psy
 	additional_items = list(/obj/item/ingot/silverblessed, /obj/item/grown/log/tree/small)
-	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/psy/spear
 	name = "Psydonic Spear (+1 Blessed Silver, +1 Small Log)"
 	created_item = /obj/item/rogueweapon/spear/psyspear
 	additional_items = list(/obj/item/ingot/silverblessed, /obj/item/grown/log/tree/small)
-	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/psy/dagger
 	name = "Psydonic Dagger"
 	created_item = /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger
-	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/psy/shortsword
 	name = "Psydonic Shortsword"
 	created_item = /obj/item/rogueweapon/sword/short/psy
-	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/psy/katar
 	name = "Psydonic Katar"
 	created_item = /obj/item/rogueweapon/katar/psydon
-	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/psy/knuckles
 	name = "Psydonic Knuckledusters"
 	created_item = /obj/item/rogueweapon/knuckles/psydon
-	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/psy/cudgel
 	name = "Psydonic Handmace"
 	created_item = /obj/item/rogueweapon/mace/cudgel/psy
-	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/psy/halberd
 	name = "Psydonic Halberd (+2 Blessed Silver, +1 Small Log)"
 	created_item = /obj/item/rogueweapon/halberd/psyhalberd
 	additional_items = list(/obj/item/ingot/silverblessed, /obj/item/ingot/silverblessed, /obj/item/grown/log/tree/small)
-	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/psy/gsword
 	name = "Psydonic Greatsword (+2 Blessed Silver)"
 	created_item = /obj/item/rogueweapon/greatsword/psygsword
 	additional_items = list(/obj/item/ingot/silverblessed, /obj/item/ingot/silverblessed)
-	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/psy/sword
 	name = "Psydonic Longsword (+1 Blessed Silver)"
 	created_item = /obj/item/rogueweapon/sword/long/psysword
 	additional_items = list(/obj/item/ingot/silverblessed)
-	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/psy/whip
 	name = "Psydonic Whip (+3 Cured Leather)"
 	created_item = /obj/item/rogueweapon/whip/psywhip_lesser
 	additional_items = list(/obj/item/natural/hide/cured, /obj/item/natural/hide/cured, /obj/item/natural/hide/cured)
-	i_type = "Weapons"
 
 /// BLESSED SILVER, BULLION VARIANTS - FALLBACK
-
+//cutting out the duplicate variables so it's more clear what these subtypes actually do
 /datum/anvil_recipe/weapons/psy/axe/inq
-	name = "Psydonic War Axe (+1 Blessed Silver, +1 Stick)"
-	created_item = /obj/item/rogueweapon/stoneaxe/battle/psyaxe
-	additional_items = list(/obj/item/ingot/silverblessed/bullion, /obj/item/grown/log/tree/stick)
-	i_type = "Weapons"
+	req_bar = /obj/item/ingot/silverblessed/bullion
 
 /datum/anvil_recipe/weapons/psy/poleaxe/inq
-	name = "Psydonic Poleaxe (+2 Blessed Silver, +1 Small Log)"
-	additional_items = list(/obj/item/ingot/silverblessed/bullion, /obj/item/ingot/silverblessed/bullion, /obj/item/grown/log/tree/small)
-	created_item = /obj/item/rogueweapon/greataxe/psy
-	i_type = "Weapons"
+	req_bar = /obj/item/ingot/silverblessed/bullion
 
 /datum/anvil_recipe/weapons/psy/mace/inq
-	name = "Psydonic Grand Mace (+1 Blessed Silver, +1 Small Log)"
-	created_item = /obj/item/rogueweapon/mace/goden/psy
-	additional_items = list(/obj/item/ingot/silverblessed/bullion, /obj/item/grown/log/tree/small)
-	i_type = "Weapons"
+	req_bar = /obj/item/ingot/silverblessed/bullion
 
 /datum/anvil_recipe/weapons/psy/spear/inq
-	name = "Psydonic Spear (+1 Blessed Silver, +1 Small Log)"
-	created_item = /obj/item/rogueweapon/spear/psyspear
-	additional_items = list(/obj/item/ingot/silverblessed/bullion, /obj/item/grown/log/tree/small)
-	i_type = "Weapons"
+	req_bar = /obj/item/ingot/silverblessed/bullion
 
 /datum/anvil_recipe/weapons/psy/dagger/inq
-	name = "Psydonic Dagger"
-	created_item = /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger
-	i_type = "Weapons"
-
+	req_bar = /obj/item/ingot/silverblessed/bullion
+	
 /datum/anvil_recipe/weapons/psy/shortsword/inq
-	name = "Psydonic Shortsword"
-	created_item = /obj/item/rogueweapon/sword/short/psy
-	i_type = "Weapons"
+	req_bar = /obj/item/ingot/silverblessed/bullion
 
 /datum/anvil_recipe/weapons/psy/katar/inq
-	name = "Psydonic Katar"
-	created_item = /obj/item/rogueweapon/katar/psydon
-	i_type = "Weapons"
+	req_bar = /obj/item/ingot/silverblessed/bullion
 
 /datum/anvil_recipe/weapons/psy/knuckles/inq
-	name = "Psydonic Knuckles"
-	created_item = /obj/item/rogueweapon/knuckles/psydon
-	i_type = "Weapons"
+	req_bar = /obj/item/ingot/silverblessed/bullion
 
 /datum/anvil_recipe/weapons/psy/cudgel/inq
-	name = "Psydonic Handmace"
-	created_item = /obj/item/rogueweapon/mace/cudgel/psy
-	i_type = "Weapons"
+	req_bar = /obj/item/ingot/silverblessed/bullion
 
 /datum/anvil_recipe/weapons/psy/halberd/inq
-	name = "Psydonic Halberd (+2 Blessed Silver, +1 Small Log)"
-	created_item = /obj/item/rogueweapon/halberd/psyhalberd
-	additional_items = list(/obj/item/ingot/silverblessed/bullion, /obj/item/ingot/silverblessed/bullion, /obj/item/grown/log/tree/small)
-	i_type = "Weapons"
+	req_bar = /obj/item/ingot/silverblessed/bullion
 
 /datum/anvil_recipe/weapons/psy/gsword/inq
-	name = "Psydonic Greatsword (+2 Blessed Silver)"
-	created_item = /obj/item/rogueweapon/greatsword/psygsword
-	additional_items = list(/obj/item/ingot/silverblessed/bullion, /obj/item/ingot/silverblessed/bullion)
-	i_type = "Weapons"
+	req_bar = /obj/item/ingot/silverblessed/bullion
 
 /datum/anvil_recipe/weapons/psy/sword/inq
-	name = "Psydonic Longsword (+1 Blessed Silver)"
-	created_item = /obj/item/rogueweapon/sword/long/psysword
-	additional_items = list(/obj/item/ingot/silverblessed/bullion)
-	i_type = "Weapons"
+	req_bar = /obj/item/ingot/silverblessed/bullion
 
 /datum/anvil_recipe/weapons/psy/whip/inq
-	name = "Psydonic Whip (+3 Cured Leather)"
-	created_item = /obj/item/rogueweapon/whip/psywhip_lesser
-	additional_items = list(/obj/item/natural/hide/cured, /obj/item/natural/hide/cured, /obj/item/natural/hide/cured)
-	i_type = "Weapons"
+	req_bar = /obj/item/ingot/silverblessed/bullion
