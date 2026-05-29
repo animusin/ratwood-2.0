@@ -3059,7 +3059,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 
 /datum/preferences/proc/copy_to(mob/living/carbon/human/character, icon_updates = 1, roundstart_checks = TRUE, character_setup = FALSE, antagonist = FALSE, skip_normal_prefs = FALSE)
 	if(skip_normal_prefs)
-		_load_statpack(S) /// This should load statpack preferences, I'm at my limit here.
+		_load_statpack() /// This should load statpack preferences, I'm at my limit here.
 		character.statpack = statpack
 		// For gnolls spawning from a non-gnoll base slot, we must not apply any base-slot state.
 		// Set species to gnoll immediately so advclass check_requirements can read dna.species.type.
