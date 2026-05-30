@@ -35877,6 +35877,10 @@
 /obj/item/rogueweapon/hoe/stone,
 /turf/open/floor/rogue/dirt/road/desert,
 /area/rogue/outdoors/desert)
+"ora" = (
+/obj/machinery/light/rogue/firebowl/standing/blue,
+/turf/open/floor/rogue/sandbrick,
+/area/rogue/under/town/basement/desert/keep)
 "ori" = (
 /turf/open/floor/rogue/deserttile,
 /area/rogue/indoors/town/church/psy)
@@ -56238,6 +56242,10 @@
 	icon = 'modular_deserttown/icons/alt/roguefloor.dmi'
 	},
 /area/rogue/indoors/town/garrison/desert/cell)
+"woA" = (
+/obj/machinery/light/rogue/firebowl/standing/blue,
+/turf/open/floor/rogue/darkpath,
+/area/rogue/under/town/basement/desert/keep)
 "woC" = (
 /obj/structure/table/wood{
 	dir = 10;
@@ -278163,7 +278171,7 @@ smX
 smX
 iIw
 iIw
-smX
+iIw
 kvr
 kvr
 kvr
@@ -278476,7 +278484,7 @@ smX
 smX
 smX
 smX
-kvr
+smX
 kvr
 kvr
 kvr
@@ -278785,6 +278793,7 @@ kYM
 jDe
 smX
 smX
+smX
 hKH
 jOQ
 smX
@@ -278792,7 +278801,6 @@ smX
 smX
 smX
 smX
-kvr
 kvr
 kvr
 kvr
@@ -279096,6 +279104,7 @@ smX
 smX
 smX
 smX
+smX
 nDF
 hoE
 dBl
@@ -279104,7 +279113,6 @@ oBO
 iho
 wiF
 smX
-kvr
 kvr
 kvr
 kvr
@@ -279405,6 +279413,7 @@ ioY
 aaR
 aaR
 smX
+iIw
 smX
 smX
 smX
@@ -279417,7 +279426,6 @@ iho
 iho
 smX
 smX
-kvr
 kvr
 kvr
 kvr
@@ -279717,6 +279725,7 @@ mjf
 aaR
 aaR
 smX
+iIw
 smX
 rlG
 kCe
@@ -279729,7 +279738,6 @@ iho
 iho
 oBO
 smX
-kvr
 kvr
 kvr
 kvr
@@ -280027,7 +280035,8 @@ mjt
 ioY
 smX
 ikO
-cVZ
+ora
+smX
 smX
 smX
 qnH
@@ -280041,7 +280050,6 @@ iho
 iho
 iho
 smX
-kvr
 kvr
 kvr
 kvr
@@ -280343,6 +280351,7 @@ aaR
 cZu
 gcj
 cER
+cER
 smX
 xPp
 tZH
@@ -280352,7 +280361,6 @@ qQw
 iho
 iho
 cOg
-smX
 smX
 smX
 smX
@@ -280655,6 +280663,7 @@ aaR
 cZu
 gcj
 cER
+cER
 smX
 aWf
 iEI
@@ -280664,7 +280673,6 @@ qQw
 iho
 iho
 dBl
-smX
 smX
 sSg
 smX
@@ -280963,7 +280971,8 @@ slq
 ioY
 smX
 ikO
-aaR
+woA
+smX
 smX
 smX
 qnH
@@ -280976,7 +280985,6 @@ qQw
 iho
 iho
 iho
-smX
 smX
 dbG
 smX
@@ -281277,6 +281285,7 @@ eiR
 aaR
 aaR
 smX
+kvr
 smX
 rlG
 kCe
@@ -281288,7 +281297,6 @@ qQw
 iho
 iho
 kGO
-smX
 smX
 aaR
 smX
@@ -281589,6 +281597,7 @@ mjf
 aaR
 aaR
 smX
+kvr
 smX
 smX
 smX
@@ -281599,7 +281608,6 @@ xdZ
 iho
 iho
 iho
-smX
 smX
 smX
 ikO
@@ -281903,6 +281911,7 @@ cVZ
 smX
 kvr
 kvr
+kvr
 smX
 nBH
 dBl
@@ -281912,7 +281921,6 @@ kGO
 iho
 iho
 wiF
-smX
 smX
 smX
 smX
@@ -282215,6 +282223,7 @@ aaR
 smX
 kvr
 kvr
+kvr
 smX
 smX
 hoE
@@ -282225,7 +282234,6 @@ smX
 smX
 smX
 smX
-kvr
 kvr
 kvr
 kvr
