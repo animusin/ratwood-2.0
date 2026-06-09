@@ -51,6 +51,7 @@
 			if(5)
 				shown_patreon_level = "Lord"
 		to_chat(src, span_info("Donator Level: [shown_patreon_level]"))
+	client.changelog()
 
 	var/server_address = CONFIG_GET(string/server)
 	var/primary_server = server_address ? "byond://[server_address]" : null
