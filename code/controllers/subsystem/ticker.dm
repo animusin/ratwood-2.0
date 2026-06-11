@@ -218,10 +218,11 @@ SUBSYSTEM_DEF(ticker)
 
 			if(timeLeft <= 0)
 				if(!checkreqroles() || totalPlayersReady < 1)
-					current_state = GAME_STATE_PREGAME
+					current_state = GAME_STATE_STARTUP
 					start_at = world.time + 6000
 					timeLeft = null
-					fire()
+					start_immediately = FALSE
+					Master.SetRunLevel(RUNLEVEL_LOBBY)
 				else
 					current_state = GAME_STATE_SETTING_UP
 					Master.SetRunLevel(RUNLEVEL_SETUP)
