@@ -204,20 +204,36 @@
 	if(!recipient)
 		return
 
-	// Remove whatever shirt they spawned with
-	var/obj/item/clothing/shirt = recipient.wear_shirt
-	if(shirt)
-		qdel(shirt)
+	// Defer a tick before equipping the skin. When this virtue is applied as part of
+	// advanced-class setup (e.g. picking a Naledi mercenary class), the class outfit
+	// equips its own shirt in the same setup pass. Doing it synchronously let that shirt
+	// displace the skin - and the skin self-deletes when dropped (see /regenerating/skin),
+	// so the natural armor silently vanished. Applying it a beat later lands it on top.
+	addtimer(CALLBACK(src, .proc/equip_skin, recipient, TRUE), 0.5 SECONDS)
 
-	// Equip the skin armor
-	recipient.equip_to_slot_or_del(
-		new /obj/item/clothing/suit/roguetown/armor/regenerating/skin/weak(recipient),
-		SLOT_SHIRT,
-		TRUE
-	)
-	
-	if(alert(recipient, "Would you like to change the name or description of your skin?", "TOUGH HIDE", "MAKE IT SO", "I RESCIND") == "MAKE IT SO") // Query user
-		addtimer(CALLBACK(src, .proc/customize_skin, recipient), 1 SECONDS)
+/// (Re)equips the regenerating skin into the shirt slot, clearing whatever is there first.
+/// Idempotent: if the skin is already worn it does nothing, so it can also restore a
+/// natural armor that got displaced by a later equip.
+/datum/virtue/combat/tough_hide/proc/equip_skin(mob/living/carbon/human/recipient, offer_customize = FALSE)
+	if(QDELETED(recipient))
+		return
+
+	if(!istype(recipient.wear_shirt, /obj/item/clothing/suit/roguetown/armor/regenerating/skin))
+		// Remove whatever ended up in the shirt slot (spawn garb or a class outfit's shirt)
+		var/obj/item/clothing/shirt = recipient.wear_shirt
+		if(shirt)
+			qdel(shirt)
+
+		// Equip the skin armor
+		recipient.equip_to_slot_or_del(
+			new /obj/item/clothing/suit/roguetown/armor/regenerating/skin/weak(recipient),
+			SLOT_SHIRT,
+			TRUE
+		)
+
+	if(offer_customize && istype(recipient.wear_shirt, /obj/item/clothing/suit/roguetown/armor/regenerating/skin))
+		if(alert(recipient, "Would you like to change the name or description of your skin?", "TOUGH HIDE", "MAKE IT SO", "I RESCIND") == "MAKE IT SO") // Query user
+			customize_skin(recipient)
 
 /datum/virtue/combat/tough_hide/proc/customize_skin(mob/living/carbon/human/recipient)
 	var/obj/item/clothing/hide = recipient.wear_shirt
@@ -238,6 +254,7 @@
 	else
 		vanished_hide = TRUE
 
-	if(vanished_hide) //failsafe
-		to_chat(recipient, span_warning("My natural armor vanished! Perhaps some divine intervention might sort things out..."))
+	if(vanished_hide) //failsafe - the skin got displaced; re-grant it instead of leaving them bare
+		equip_skin(recipient)
+		to_chat(recipient, span_warning("My natural armor reasserts itself over my garb!"))
 
