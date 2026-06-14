@@ -544,10 +544,11 @@
 					dat += "<td width = 50%; style='text-align:right'>"
 					var/list/notable_skills = list()
 					for(var/sk in adv_ref.subclass_skills)
-						if(adv_ref.subclass_skills[sk] >= SKILL_LEVEL_JOURNEYMAN)
-							notable_skills[sk] = adv_ref.subclass_skills[sk]
+						var/sk_level = adv_ref.subclass_skills[sk]
+						if(isnum(sk_level) && sk_level >= SKILL_LEVEL_JOURNEYMAN) // guard against malformed (non-numeric) skill entries
+							notable_skills[sk] = sk_level
 						else if(ispath(sk, /datum/skill/combat))
-							notable_skills[sk] = adv_ref.subclass_skills[sk]
+							notable_skills[sk] = sk_level
 					if(!length(notable_skills))	//Nothing above Jman AND no Combat skills.
 						dat += "<i>This subclass has no notable skills.</i>"
 					else

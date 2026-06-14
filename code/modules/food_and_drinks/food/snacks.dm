@@ -157,7 +157,9 @@ All foods are distributed among various categories. Use common sense.
 				reagents.trans_to(NU.reagents, reagents.maximum_volume)
 			qdel(src)
 			if(!location || !SEND_SIGNAL(location, COMSIG_TRY_STORAGE_INSERT, NU, null, TRUE, TRUE))
-				NU.forceMove(get_turf(NU.loc))
+				var/turf/drop_loc = get_turf(NU)
+				if(drop_loc) // can be null if the original food was rotting in nullspace; don't forceMove(null)
+					NU.forceMove(drop_loc)
 			record_round_statistic(STATS_FOOD_ROTTED)
 			return TRUE
 	else
@@ -254,6 +256,9 @@ All foods are distributed among various categories. Use common sense.
 
 /obj/item/reagent_containers/food/snacks/proc/On_Consume(mob/living/eater)
 	if(!eater)
+		return
+
+	if(!reagents) // food already had its reagents stripped/qdeleted; nothing left to consume
 		return
 
 	if(slices_num)

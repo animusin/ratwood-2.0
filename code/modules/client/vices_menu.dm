@@ -322,8 +322,10 @@ GLOBAL_LIST_EMPTY(cached_loadout_icons)
 		"extra_language_2" = extra_language_2
 	)
 	
-	// Add to history
-	customization_history.Insert(1, snapshot)
+	// Add to history. Wrap in list() so Insert() stores the snapshot as a single
+	// element - passing the assoc list directly makes Insert() splice its contents,
+	// which corrupts the history and makes undo_last_change() throw "bad index".
+	customization_history.Insert(1, list(snapshot))
 	
 	// Keep only last 10 entries
 	if(customization_history.len > 10)
