@@ -132,7 +132,7 @@
 /area/rogue/under/tomb/sewer)
 "Ry" = (
 /turf/open/water/sewer,
-/area/rogue/under/tomb/sewer)
+/area/centcom/supplypod/loading/ert)
 
 (1,1,1) = {"
 aW

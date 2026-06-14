@@ -223,10 +223,10 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 
 /mob/dead/observer/Destroy()
 	GLOB.ghost_images_default -= ghostimage_default
-	QDEL_NULL(ghostimage_default)
+	ghostimage_default = null
 
 	GLOB.ghost_images_simple -= ghostimage_simple
-	QDEL_NULL(ghostimage_simple)
+	ghostimage_simple = null
 
 	updateallghostimages()
 
