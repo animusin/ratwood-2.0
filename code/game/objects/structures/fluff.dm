@@ -957,7 +957,7 @@ icon_state = "gargoyle_candles"
 	icon_state = "mgargoyle"
 
 /obj/structure/fluff/statue/gargoyle/moss/candles
-icon_state = "mgargoyle_candles"
+	icon_state = "mgargoyle_candles"
 
 /obj/structure/fluff/statue/knight
 	name = "templar statue"
