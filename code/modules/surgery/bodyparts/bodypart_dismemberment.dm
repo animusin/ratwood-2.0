@@ -30,7 +30,7 @@
 		if(zone_precise != BODY_ZONE_PRECISE_NECK)
 			return FALSE
 		if(!HAS_TRAIT(C, TRAIT_CRITICAL_WEAKNESS) && !HAS_TRAIT(C, TRAIT_EASYDISMEMBER))	//People with these traits can be decapped standing, or buckled, or however.
-			if(!isnull(C.mind) && (C.mobility_flags & MOBILITY_STAND) && !C.buckled) //Only allows upright decapitations if it's not a player. Unless they're buckled.
+			if(!isnull(C.mind?.key) && (C.mobility_flags & MOBILITY_STAND) && !C.buckled) //Only allows upright decapitations if it's not a player. Unless they're buckled. NPCs given a mind (e.g. deadites) have no key, so they still get decapped.
 				return FALSE
 
 	if(body_zone != BODY_ZONE_HEAD)
