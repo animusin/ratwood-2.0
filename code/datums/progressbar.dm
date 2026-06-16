@@ -27,6 +27,7 @@
 	for(var/mob/M in our_cells.get_type_members(SPATIAL_GRID_CONTENTS_TYPE_CLIENTS))
 		if(M.client)
 			M.client.images |= bar
+	RegisterSignal(target, COMSIG_MOVABLE_MOVED, PROC_REF(set_new_cells))
 
 	LAZYINITLIST(user.progressbars)
 	LAZYINITLIST(user.progressbars[bar.loc])
@@ -73,6 +74,7 @@
 	return ..()
 
 /datum/progressbar/proc/set_new_cells()
+	SIGNAL_HANDLER
 	var/turf/our_turf = get_turf(bar.loc)
 	if(isnull(our_turf))
 		return
@@ -87,6 +89,7 @@
 
 // we never remove these when clients exit, they all get cleaned up when the mob leaves
 /datum/progressbar/proc/on_client_enter(datum/source, mob/client_holder)
+	SIGNAL_HANDLER
 	if(!istype(client_holder) || !client_holder.client)
 		return
 	client_holder.client.images |= bar
@@ -94,6 +97,8 @@
 /datum/progressbar/proc/remove_from_clients()
 	for(var/client/C in GLOB.clients) // this is genuinely faster than tracking clients we've sent it to
 		C.images -= bar
+	if(bar?.loc)
+		UnregisterSignal(bar.loc, COMSIG_MOVABLE_MOVED, PROC_REF(set_new_cells))
 	bar = null
 
 #undef PROGRESSBAR_ANIMATION_TIME
