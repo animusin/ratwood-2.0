@@ -62,11 +62,15 @@ INITIALIZE_IMMEDIATE(/mob/dead)
 	if(!winexists(client, "lobby_window"))
 		open_lobby()  // creates window + browser control
 		sleep(0)
+		if(!client) // client vanished while we slept
+			return
 	var/lobby_visible = winget(client, "lobby_window", "is-visible")
 	if(lobby_visible == "false") // winget returns a string...
 		client << browse(null, "window=lobby_window")
 		open_lobby()
 		sleep(0)
+		if(!client) // client vanished while we slept
+			return
 
 	// UPDATE TIMER -- Script in html\lobby\lobby.html / .js
 	var/timer_text
