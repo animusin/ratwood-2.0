@@ -597,7 +597,7 @@
 
 	var/list/bodypart_organs
 	for(var/obj/item/organ/organ_check as anything in owner.internal_organs) //internal organs inside the dismembered limb are dropped.
-		if(check_zone(organ_check.zone) == body_zone)
+		if(organ_check.zone_checked == body_zone)
 			LAZYADD(bodypart_organs, organ_check) // this way if we don't have any, it'll just return null
 
 	return bodypart_organs

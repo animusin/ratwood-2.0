@@ -325,8 +325,7 @@
 
 	if(!special)
 		for(var/obj/item/organ/organ as anything in was_owner.internal_organs) //internal organs inside the dismembered limb are dropped.
-			var/org_zone = check_zone(organ.zone)
-			if(org_zone != body_zone)
+			if(organ.zone_checked != body_zone)
 				continue
 			organ.transfer_to_limb(src, was_owner)
 
