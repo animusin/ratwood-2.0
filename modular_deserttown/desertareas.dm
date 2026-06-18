@@ -357,13 +357,6 @@
 	first_time_text = "Tomb of the Ancient"
 	droning_sound = 'sound/music/area/tombs.ogg'
 
-/area/rogue/under/dungeon/dtsanctum
-	name = "The Crimson Sanctum"
-	icon_state = "spidercave"
-	first_time_text = "The Crimson Sanctum"
-	droning_sound = 'sound/music/area/dungeon2.ogg'
-	ceiling_protected = TRUE
-
 /area/rogue/under/underdesert
 	name = "Underdeep"
 	icon_state = "cavewet"
