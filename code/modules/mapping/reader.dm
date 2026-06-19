@@ -939,13 +939,15 @@ GLOBAL_LIST_EMPTY(map_model_default)
 		if(GLOB.use_preloader)
 			world.preloader_load(area_instance)
 
-	// Index right before /area is /turf
-	index--
+	// The /area is the last member only when one is actually present. Consume that slot only then,
+	// so a degenerate tile with no /area (e.g. just a turf) doesn't underflow index into the turf slot below.
+	if(ispath(members[index], /area))
+		index--
 	var/atom/instance
 	//then instance the /turf
 	//NOTE: this used to place any turfs before the last "underneath" it using .appearance and underlays
 	//We don't actually use this, and all it did was cost cpu, so we don't do this anymore
-	if(members[index] != /turf/template_noop)
+	if(index >= 1 && members[index] != /turf/template_noop)
 		if(members_attributes[index] != default_list)
 			world.preloader_setup(members_attributes[index], members[index])
 

@@ -48,7 +48,7 @@ SUBSYSTEM_DEF(lighting)
 		else if (MC_TICK_CHECK)
 			break
 	if (i)
-		queue.Cut(1, i+1)
+		queue.Cut(1, min(i, length(queue)) + 1) // clamp: the queue may have shrunk while we slept
 		i = 0
 
 	if(!init_tick_checks)
@@ -67,7 +67,7 @@ SUBSYSTEM_DEF(lighting)
 		else if (MC_TICK_CHECK)
 			break
 	if (i)
-		queue.Cut(1, i+1)
+		queue.Cut(1, min(i, length(queue)) + 1) // clamp: the queue may have shrunk while we slept
 		i = 0
 
 
@@ -90,7 +90,7 @@ SUBSYSTEM_DEF(lighting)
 		else if (MC_TICK_CHECK)
 			break
 	if (i)
-		queue.Cut(1, i+1)
+		queue.Cut(1, min(i, length(queue)) + 1) // clamp: the queue may have shrunk while we slept
 
 
 /datum/controller/subsystem/lighting/Recover()
