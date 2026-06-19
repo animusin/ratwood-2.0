@@ -35,6 +35,8 @@ SUBSYSTEM_DEF(lighting)
 	var/list/queue = sources_queue
 	var/i = 0
 	for (i in 1 to length(queue))
+		if(i > length(queue)) // the queue can shrink mid-loop when CHECK_TICK sleeps during init
+			break
 		var/datum/light_source/L = queue[i]
 
 		L.update_corners()
@@ -46,7 +48,7 @@ SUBSYSTEM_DEF(lighting)
 		else if (MC_TICK_CHECK)
 			break
 	if (i)
-		queue.Cut(1, i+1)
+		queue.Cut(1, min(i, length(queue)) + 1) // clamp: the queue may have shrunk while we slept
 		i = 0
 
 	if(!init_tick_checks)
@@ -54,6 +56,8 @@ SUBSYSTEM_DEF(lighting)
 
 	queue = corners_queue
 	for (i in 1 to length(queue))
+		if(i > length(queue)) // the queue can shrink mid-loop when CHECK_TICK sleeps during init
+			break
 		var/datum/lighting_corner/C = queue[i]
 
 		C.update_objects()
@@ -63,7 +67,7 @@ SUBSYSTEM_DEF(lighting)
 		else if (MC_TICK_CHECK)
 			break
 	if (i)
-		queue.Cut(1, i+1)
+		queue.Cut(1, min(i, length(queue)) + 1) // clamp: the queue may have shrunk while we slept
 		i = 0
 
 
@@ -72,6 +76,8 @@ SUBSYSTEM_DEF(lighting)
 
 	queue = objects_queue
 	for (i in 1 to length(queue))
+		if(i > length(queue)) // the queue can shrink mid-loop when CHECK_TICK sleeps during init
+			break
 		var/atom/movable/lighting_object/O = queue[i]
 
 		if (QDELETED(O))
@@ -84,7 +90,7 @@ SUBSYSTEM_DEF(lighting)
 		else if (MC_TICK_CHECK)
 			break
 	if (i)
-		queue.Cut(1, i+1)
+		queue.Cut(1, min(i, length(queue)) + 1) // clamp: the queue may have shrunk while we slept
 
 
 /datum/controller/subsystem/lighting/Recover()
