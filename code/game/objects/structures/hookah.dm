@@ -202,6 +202,8 @@
 
 	grid_height = 64
 	grid_width = 64
+	dropshrink = 0.8
+	max_integrity = 100
 
 /obj/item/portable_hookah/Initialize(mapload)
 	. = ..()
