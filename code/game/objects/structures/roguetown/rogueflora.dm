@@ -1125,8 +1125,11 @@
 	if(isliving(user) && user.mind)
 		user.mind.add_sleep_experience(/datum/skill/magic/druidic, 20)
 	return TRUE
-//A smattering of jungle-themed assets
+
+//A smattering of jungle-themed assets. The default artstyle of SS13 is far too bright so they all have a color to darken them down to more of a roguetown pallette
 //trees
+
+#define COLOR_JUNGLE			"#9bb6ae"
 
 /obj/structure/flora/roguetree/jungle//version with mechanics this time
 	name = "jungle tree"
@@ -1216,5 +1219,3 @@
 /obj/structure/flora/roguegrass/jungle/sparse/Initialize(mapload)
 	. = ..()
 	icon_state = "grassb[rand(1, 5)]"
-
-#define COLOR_JUNGLE			"#9bb6ae"
