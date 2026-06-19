@@ -35,6 +35,8 @@ SUBSYSTEM_DEF(lighting)
 	var/list/queue = sources_queue
 	var/i = 0
 	for (i in 1 to length(queue))
+		if(i > length(queue)) // the queue can shrink mid-loop when CHECK_TICK sleeps during init
+			break
 		var/datum/light_source/L = queue[i]
 
 		L.update_corners()
@@ -54,6 +56,8 @@ SUBSYSTEM_DEF(lighting)
 
 	queue = corners_queue
 	for (i in 1 to length(queue))
+		if(i > length(queue)) // the queue can shrink mid-loop when CHECK_TICK sleeps during init
+			break
 		var/datum/lighting_corner/C = queue[i]
 
 		C.update_objects()
@@ -72,6 +76,8 @@ SUBSYSTEM_DEF(lighting)
 
 	queue = objects_queue
 	for (i in 1 to length(queue))
+		if(i > length(queue)) // the queue can shrink mid-loop when CHECK_TICK sleeps during init
+			break
 		var/atom/movable/lighting_object/O = queue[i]
 
 		if (QDELETED(O))
