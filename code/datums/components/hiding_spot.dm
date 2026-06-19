@@ -67,8 +67,7 @@
 		to_chat(potential_hider, span_warning("This hiding spot is blocked!"))
 		return
 
-	var/mob/living/current_hider = hider?.resolve()
-	if(current_hider)
+	if(hider?.resolve())
 		to_chat(potential_hider, span_warning(occupied_message))
 		return
 	hider = null

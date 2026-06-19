@@ -1,3 +1,4 @@
+// why does this use a component, it should be on the heart beast type, this is dumb
 /datum/component/chimeric_heart_beast
 	var/obj/structure/roguemachine/chimeric_heart_beast/heart_beast
 	var/base_blood_output = 1
