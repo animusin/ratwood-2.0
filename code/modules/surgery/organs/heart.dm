@@ -26,22 +26,11 @@
 	/// Associated maniac key
 	var/inscryption_key
 
-	var/last_beat_sound = -INFINITY
+	var/static/sound/slowbeat = sound('sound/health/slowbeat.ogg', repeat = TRUE)
+	var/static/sound/fastbeat = sound('sound/health/fastbeat.ogg', repeat = TRUE)
+
+
 	food_type = /obj/item/reagent_containers/food/snacks/organ/heart
-
-GLOBAL_VAR_INIT(heart_sound_pool, new /datum/heart_sound_pool)
-
-/datum/heart_sound_pool
-	var/sound/slowbeat
-	var/sound/fastbeat
-
-/datum/heart_sound_pool/New()
-	..()
-	slowbeat = sound('sound/health/slowbeat.ogg', repeat = TRUE)
-	fastbeat = sound('sound/health/fastbeat.ogg', repeat = TRUE)
-
-/proc/get_heart_sounds()
-	return GLOB.heart_sound_pool
 
 /obj/item/organ/heart/Destroy()
 	for(var/datum/culling_duel/D in GLOB.graggar_cullings)
@@ -123,9 +112,7 @@ GLOBAL_VAR_INIT(heart_sound_pool, new /datum/heart_sound_pool)
 	if(owner.client && beating)
 		failed = FALSE
 		var/mob/living/carbon/H = owner
-
 		var/new_beat = BEAT_NONE
-
 		if(H.health <= H.crit_threshold)
 			new_beat = BEAT_SLOW
 		else if(H.jitteriness && H.health > HEALTH_THRESHOLD_FULLCRIT)
@@ -133,20 +120,14 @@ GLOBAL_VAR_INIT(heart_sound_pool, new /datum/heart_sound_pool)
 		if(beat != new_beat)	
 			H.stop_sound_channel(CHANNEL_HEARTBEAT)
 			beat = new_beat
-			last_beat_sound = 0
-		var/interval //Our oggs are not the same length.
-		var/sound/heartbeat_sound
-		switch(beat)
+			var/sound/heartbeat_sound
+			switch(beat)
 				if(BEAT_SLOW)
-						interval = 12 SECONDS
-						heartbeat_sound = slowbeat
+					heartbeat_sound = slowbeat
 				if(BEAT_FAST)
-						interval = 2.85 SECONDS
-						heartbeat_sound = fastbeat
-		if(heartbeat_sound && (world.time >= last_beat_sound + interval))
-			last_beat_sound = world.time
-			H.playsound_local(null, heartbeat_sound, 40, FALSE, channel = CHANNEL_HEARTBEAT)
-
+					heartbeat_sound = fastbeat
+			if(heartbeat_sound)
+				H.playsound_local(null, heartbeat_sound, 40, FALSE, channel = CHANNEL_HEARTBEAT)
 	if(organ_flags & ORGAN_FAILING)	//heart broke, stopped beating, death imminent
 		if(owner.stat == CONSCIOUS)
 			owner.visible_message(span_danger("[owner] clutches at [owner.p_their()] chest as if [owner.p_their()] heart is stopping!"), \
