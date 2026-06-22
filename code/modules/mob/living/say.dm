@@ -258,7 +258,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		message = uppertext(message)
 	if(!message)
 		return
-	if(D.flags & SIGNLANG)
+	if(D && (D.flags & SIGNLANG)) // D is null when speaking an unregistered/invalid language
 		send_speech_sign(message, message_range, src, bubble_type, spans, language, message_mode, original_message)
 	else
 		send_speech(message, message_range, src, bubble_type, spans, language, message_mode, original_message)

@@ -1149,13 +1149,14 @@
 	H.heatstroke_timer_id = null
 	var/def_zone = BODY_ZONE_HEAD
 	var/obj/item/bodypart/BP = H.get_bodypart(def_zone)
+	if(!BP) // headless mobs have no bodypart to wound
+		return
 	for(var/datum/wound/W in BP.wounds)
 		if(istype(W, /datum/wound/heatexhaustion)||istype(W, /datum/wound/heatstroke))
 			return
-	if(BP)
-		to_chat(H, span_userdanger("My head is spinning and I feel terrible!"))
-		BP.add_wound(/datum/wound/heatexhaustion)
-		BP.update_disabled()
+	to_chat(H, span_userdanger("My head is spinning and I feel terrible!"))
+	BP.add_wound(/datum/wound/heatexhaustion)
+	BP.update_disabled()
 
 /mob/living/carbon/human/proc/relieve_heatstroke_from_cold()
 	var/found = FALSE

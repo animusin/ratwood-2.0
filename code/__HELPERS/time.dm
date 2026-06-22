@@ -134,7 +134,7 @@ GLOBAL_VAR_INIT(dayspassed, FALSE)
 	else if(GLOB.tod == "night")
 		playsound_local(src, 'sound/misc/nightfall.ogg', 100, FALSE)
 		var/mob/living/carbon/human/H = src
-		if(H)
+		if(ishuman(H)) // time_flags only exists on humans; src may be a simple_animal
 			H.time_flags &= ~(TIME_OF_DAY_BIT_DAY | TIME_OF_DAY_BIT_NIGHT)
 			H.time_flags |= TIME_OF_DAY_BIT_NIGHT
 	var/atom/movable/screen/daynight/D = new()
