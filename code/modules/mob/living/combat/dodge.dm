@@ -144,7 +144,7 @@
 				prob2defend = prob2defend + (H.get_skill_level(I.associated_skill) * 10)
 		else //the enemy attacked us unarmed or is nonhuman
 			if(UH)
-				if(UH.used_intent.unarmed)
+				if(UH.used_intent?.unarmed)
 					prob2defend = prob2defend - (UH.get_skill_level(/datum/skill/combat/unarmed) * 10)
 					prob2defend = prob2defend + (H.get_skill_level(/datum/skill/combat/unarmed) * 10)
 

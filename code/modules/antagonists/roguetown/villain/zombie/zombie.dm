@@ -146,7 +146,7 @@
 ///Remove zombification - cure rot, surgical rot remove
 /datum/antagonist/zombie/on_removal()
 	var/mob/living/carbon/human/zombie = owner?.current
-	if(zombie)
+	if(ishuman(zombie)) // current may be a disembodied brain (e.g. after decapitation), which has no dna/species
 
 		zombie.infected = FALSE // Makes sure admins removing deadification removes the infected var if they do it before they turn
 		zombie.verbs -= /mob/living/carbon/human/proc/zombie_seek
