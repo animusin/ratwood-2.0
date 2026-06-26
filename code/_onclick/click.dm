@@ -390,7 +390,7 @@
 		swingi.loc = swingtarget.loc
 
 /mob/proc/aftermiss()
-	if(ishuman(src))
+	if(ishuman(src) && used_intent)
 		var/mob/living/carbon/human/H = src
 		H.stamina_add(used_intent.misscost)
 

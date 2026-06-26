@@ -110,10 +110,8 @@
 		target_turfs += get_step(T, SOUTH)
 
 	for(var/i = 1 to to_spawn)
-		if(i > to_spawn)
-			i = 1
-
-		var/t_turf = target_turfs[i]
+		// target_turfs only holds the 3 formation tiles; wrap the index so to_spawn > 3 doesn't read out of bounds
+		var/t_turf = target_turfs[((i - 1) % length(target_turfs)) + 1]
 
 		if(!isopenturf(t_turf))
 			continue

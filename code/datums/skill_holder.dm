@@ -67,8 +67,11 @@
 	. = ..()
 
 /datum/skill_holder/proc/set_current(mob/incoming)
+	if(current && current != incoming)
+		UnregisterSignal(current, COMSIG_MIND_TRANSFER) // don't leave a dangling registration on the previous mob
 	current = incoming
-	RegisterSignal(incoming, COMSIG_MIND_TRANSFER, PROC_REF(transfer_skills))
+	// override: set_current can be called again on the same mob; re-registering without it spams "mind_transfer overridden"
+	RegisterSignal(incoming, COMSIG_MIND_TRANSFER, PROC_REF(transfer_skills), override = TRUE)
 	incoming.skills = src
 
 /datum/skill_holder/proc/transfer_skills(mob/source, mob/destination)
