@@ -414,7 +414,7 @@
 
 /obj/structure/fluff/walldeco/bath/two
 	name = "inviting stonework"
-	desc = "Suggestive and tempting artwork depicting the female form, the figure seems to beckon you closer, but the stone is cold and hard to your touch.
+	desc = "Suggestive and tempting artwork depicting the female form, the figure seems to beckon you closer, but the stone is cold and hard to your touch."
 	icon_state = "bath2"
 	pixel_x = -29
 
