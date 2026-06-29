@@ -247,7 +247,7 @@
 	if(target == user)
 		to_chat(user, span_alert("I shouldn't rip out my own lux! I need that."))
 		return
-	if(!isliving(target))
+	if(target.stat == DEAD || !isliving(target))
 		to_chat(user, span_info("Only lyving creachers may have their lux torn."))
 		return
 	if(!target.mind)
