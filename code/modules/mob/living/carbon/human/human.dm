@@ -38,6 +38,8 @@
 			if(!underwear)
 				modular_handle_chastity_middleclick_strip(user)
 				return
+			if(!erp_undress_allowed(user))
+				return
 			src.visible_message(span_notice("[user] begins to take off [(src==user)?" ":"[src]'s"][underwear]..."))
 			if(do_after(user, 30, needhand = 1, target = src))
 				var/obj/item/bodypart/chest = get_bodypart(BODY_ZONE_CHEST)

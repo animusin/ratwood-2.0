@@ -80,6 +80,28 @@ GLOBAL_PROTECT(agevetted_list)
 	fdel(json_file)
 	WRITE_FILE(json_file,json_encode(file_data))
 
+// ERP age-gating. Stripping intimate clothing (underwear) and enabling the ERP
+// panel both require age verification (whitelist). Both the wearer and whoever
+// is undressing them must be vetted. On non-mature builds the restriction is
+// compiled out so ordinary undressing is unaffected.
+/mob/living/carbon/human/proc/erp_undress_allowed(mob/stripper)
+#ifndef MATURESERVER
+	return TRUE
+#else
+	if(!stripper)
+		stripper = src
+	if(!stripper.check_agevet())
+		to_chat(stripper, span_warning("You must be age-verified to do that. Open a ticket in the server's verification channel to get whitelisted."))
+		return FALSE
+	if(!check_agevet())
+		if(stripper == src)
+			to_chat(stripper, span_warning("You must be age-verified to do that. Open a ticket in the server's verification channel to get whitelisted."))
+		else
+			to_chat(stripper, span_warning("[src] is not age-verified, so you cannot undress their underwear."))
+		return FALSE
+	return TRUE
+#endif
+
 // for more convenient host oversight and perhaps an eventual database import.
 /proc/log_agevet_to_csv(target_ckey, admin_ckey = "SYSTEM")
 	if(IsAdminAdvancedProcCall()) // sorry for using this twice
