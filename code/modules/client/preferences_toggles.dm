@@ -335,6 +335,11 @@
 	set name = "Toggle ERP Panel"
 	set hidden = 1
 	if(prefs)
+#ifdef MATURESERVER
+		if(!prefs.sexable && !check_agevet()) // can't enable the ERP panel without age verification
+			to_chat(src, span_warning("You must be age-verified (whitelisted) to enable the ERP panel. Open a ticket in the server's verification channel to get verified."))
+			return
+#endif
 		prefs.sexable = !prefs.sexable
 		prefs.save_preferences()
 		if(prefs.sexable)
